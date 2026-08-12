@@ -16,10 +16,10 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Border Grid.Row="0" CornerRadius="20" Background="White" BorderBrush="#E3EAF3" BorderThickness="1"
-                    Padding="20" Margin="0,0,0,16">
+            <Border Grid.Row="0" CornerRadius="18" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                    Padding="20" Margin="0,0,0,14">
                 <Border.Effect>
-                    <DropShadowEffect BlurRadius="18" ShadowDepth="6" Opacity="0.05" Color="#0B1220"/>
+                    <DropShadowEffect BlurRadius="14" ShadowDepth="4" Opacity="0.03" Color="{StaticResource ShadowColor}"/>
                 </Border.Effect>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -27,17 +27,17 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
-                        <TextBlock Text="POS Terminal" Style="{StaticResource PageTitle}" FontSize="26"/>
+                        <TextBlock Text="POS Terminal" Style="{StaticResource PageTitle}" FontSize="24"/>
                         <TextBlock Text="Search, select, and sell items quickly." Style="{StaticResource PageSubtitle}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1" HorizontalAlignment="Right">
-                        <Border Background="{StaticResource AccentSoftBrush}" CornerRadius="12" Padding="12,8" Margin="0,0,0,6">
+                        <Border Background="{StaticResource AccentSoftBrush}" CornerRadius="10" Padding="10,7" Margin="0,0,0,5">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE80F;" FontFamily="{StaticResource IconFont}" FontSize="12"
                                            Foreground="{StaticResource AccentDarkBrush}" VerticalAlignment="Center"/>
                                 <TextBlock Text="{Binding BranchName, StringFormat=Branch: {0}}"
                                            Foreground="{StaticResource TextPrimaryBrush}" FontSize="12" FontWeight="SemiBold"
-                                           Margin="6,0,0,0"/>
+                                           Margin="5,0,0,0"/>
                             </StackPanel>
                         </Border>
                         <TextBlock Text="{Binding TerminalName, StringFormat=Terminal: {0}}"
@@ -46,24 +46,24 @@
                 </Grid>
             </Border>
 
-            <Grid Grid.Row="1" Margin="0,0,0,16">
+            <Grid Grid.Row="1" Margin="0,0,0,14">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="210"/>
+                    <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0" Margin="0,0,12,0">
+                <Grid Grid.Column="0" Margin="0,0,10,0">
                     <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource InputTextBox}"
-                             Height="46"
+                             Height="44"
                              Padding="40,10,14,10"
                              VerticalContentAlignment="Center"/>
-                    <TextBlock Text="&#xE721;" FontFamily="{StaticResource IconFont}" FontSize="15"
+                    <TextBlock Text="&#xE721;" FontFamily="{StaticResource IconFont}" FontSize="14"
                                Foreground="{StaticResource TextSecondaryBrush}"
                                Margin="14,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" IsHitTestVisible="False"/>
                 </Grid>
 
-                <Border Grid.Column="1" Background="White" CornerRadius="14" BorderBrush="#DDE7F1" BorderThickness="1.2" Padding="12,0" Height="46">
+                <Border Grid.Column="1" Background="{StaticResource SurfaceBrush}" CornerRadius="12" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="10,0" Height="44">
                     <ComboBox ItemsSource="{Binding Categories}"
                               SelectedItem="{Binding SelectedCategory}"
                               DisplayMemberPath="Name"
@@ -72,7 +72,7 @@
                 </Border>
             </Grid>
 
-            <Border Grid.Row="2" Style="{StaticResource CardBorder}" Padding="18">
+            <Border Grid.Row="2" Style="{StaticResource CardBorder}" Padding="16">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <ItemsControl ItemsSource="{Binding Products}">
                         <ItemsControl.ItemsPanel>
@@ -82,7 +82,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Width="164" Height="126" Margin="7"
+                                <Border Width="160" Height="124" Margin="6"
                                         Style="{StaticResource ProductCardBorder}"
                                         Padding="14">
                                     <Button Command="{Binding DataContext.AddProductCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -104,14 +104,14 @@
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
                                             <StackPanel>
-                                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="13.5"
+                                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="13"
                                                            TextWrapping="Wrap" Foreground="{StaticResource TextPrimaryBrush}"/>
                                                 <TextBlock Text="{Binding CategoryName}" Foreground="{StaticResource TextSecondaryBrush}"
                                                            Margin="0,4,0,0" FontSize="10.5"/>
                                             </StackPanel>
                                             <Border Grid.Row="1" Style="{StaticResource PriceBadge}" HorizontalAlignment="Left" Margin="0,10,0,0">
                                                 <TextBlock Text="{Binding SellingPrice, StringFormat=₱{0:N2}}"
-                                                           FontWeight="Bold" FontSize="12.5" Foreground="{StaticResource AccentDarkBrush}"/>
+                                                           FontWeight="Bold" FontSize="12" Foreground="{StaticResource AccentDarkBrush}"/>
                                             </Border>
                                         </Grid>
                                     </Button>
@@ -133,25 +133,25 @@
                 </Grid.RowDefinitions>
 
                 <Border Grid.Row="0" CornerRadius="20,20,0,0" Background="{StaticResource CartHeaderGradientBrush}"
-                        Padding="20,18">
+                        Padding="20,16">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE7BF;" FontFamily="{StaticResource IconFont}" FontSize="18"
                                    Foreground="{StaticResource AccentLightBrush}" VerticalAlignment="Center"/>
-                        <TextBlock Text="Cart" Foreground="White" FontWeight="Bold" FontSize="19" Margin="10,0,0,0"/>
+                        <TextBlock Text="Cart" Foreground="White" FontWeight="Bold" FontSize="18" Margin="10,0,0,0"/>
                     </StackPanel>
                 </Border>
 
                 <DataGrid Grid.Row="1"
-                          Margin="16,14,16,0"
+                          Margin="14,12,14,0"
                           ItemsSource="{Binding Cart}"
                           Style="{StaticResource PremiumDataGrid}"
                           ColumnHeaderStyle="{StaticResource PremiumColumnHeader}"
                           RowStyle="{StaticResource PremiumRow}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Item" Binding="{Binding ProductName}" Width="*" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="42" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Price" Binding="{Binding UnitPrice, StringFormat=₱{0:N2}}" Width="88" IsReadOnly="True"/>
-                        <DataGridTemplateColumn Header="" Width="72">
+                        <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="44" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Price" Binding="{Binding UnitPrice, StringFormat=₱{0:N2}}" Width="90" IsReadOnly="True"/>
+                        <DataGridTemplateColumn Header="" Width="76">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -168,9 +168,9 @@
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <StackPanel Grid.Row="2" Margin="20,14,20,20">
+                <StackPanel Grid.Row="2" Margin="18,12,18,18">
                     <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource SuccessBrush}"
-                               Margin="0,0,0,10" TextWrapping="Wrap" FontSize="12.5"/>
+                               Margin="0,0,0,8" TextWrapping="Wrap" FontSize="12.5"/>
 
                     <Border Background="#F8FAFC" CornerRadius="14" Padding="14,12" BorderBrush="{StaticResource DividerBrush}" BorderThickness="1">
                         <StackPanel>

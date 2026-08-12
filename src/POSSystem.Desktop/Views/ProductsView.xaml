@@ -1,7 +1,7 @@
 <UserControl x:Class="POSSystem.Desktop.Views.ProductsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid Margin="32">
+    <Grid Margin="28">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -19,8 +19,8 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="0" Margin="16">
-                    <TextBlock Text="{Binding StatusMessage}" Foreground="#0F766E" FontWeight="SemiBold"/>
+                <StackPanel Grid.Row="0" Margin="18">
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource SuccessBrush}" FontWeight="SemiBold"/>
                 </StackPanel>
 
                 <DataGrid Grid.Row="1"

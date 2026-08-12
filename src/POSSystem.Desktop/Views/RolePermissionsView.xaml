@@ -1,7 +1,7 @@
 <UserControl x:Class="POSSystem.Desktop.Views.RolePermissionsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid Margin="32">
+    <Grid Margin="28">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -37,7 +37,7 @@
                       BorderThickness="0"
                       Background="Transparent"
                       RowBackground="White"
-                      AlternatingRowBackground="#F9FAFB">
+                      AlternatingRowBackground="#F1F5F9">
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn Header="Enabled"
                                             Binding="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}"

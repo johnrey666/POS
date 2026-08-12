@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>POSSystem.Desktop</RootNamespace>
+    <AssemblyName>POSSystem.Desktop</AssemblyName>
+    <ApplicationIcon />
+    <!-- Locked-down PCs often block the generated .exe apphost ("Access is denied").
+         Disable it so `dotnet run` launches via the shared host + DLL instead. -->
+    <UseAppHost>false</UseAppHost>
+    <StartupObject>POSSystem.Desktop.App</StartupObject>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\POSSystem.Domain\POSSystem.Domain.csproj" />
+    <ProjectReference Include="..\POSSystem.Infrastructure\POSSystem.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\FODPOS-LOGO.png" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,66 @@
+<UserControl x:Class="POSSystem.Desktop.Views.RolePermissionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Role Permissions" Style="{StaticResource PageTitle}"/>
+            <TextBlock Text="Select a role and enable or disable what it can access."
+                       Style="{StaticResource PageSubtitle}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,20,0,16">
+            <TextBlock Text="Role"
+                       VerticalAlignment="Center"
+                       FontWeight="SemiBold"
+                       Margin="0,0,12,0"/>
+            <ComboBox ItemsSource="{Binding Roles}"
+                      SelectedItem="{Binding SelectedRole}"
+                      DisplayMemberPath="Name"
+                      MinWidth="240"
+                      Padding="8,6"/>
+        </StackPanel>
+
+        <Border Grid.Row="2" Style="{StaticResource CardBorder}" Padding="0">
+            <DataGrid ItemsSource="{Binding Permissions}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      HeadersVisibility="Column"
+                      GridLinesVisibility="Horizontal"
+                      BorderThickness="0"
+                      Background="Transparent"
+                      RowBackground="White"
+                      AlternatingRowBackground="#F9FAFB">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="Enabled"
+                                            Binding="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}"
+                                            Width="80"/>
+                    <DataGridTextColumn Header="Permission" Binding="{Binding Name}" Width="220" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Code" Binding="{Binding Code}" Width="180" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="*" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <StackPanel Grid.Row="3" Margin="0,16,0,0">
+            <TextBlock Text="{Binding ErrorMessage}"
+                       Foreground="{StaticResource ErrorBrush}"
+                       TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding StatusMessage}"
+                       Foreground="{StaticResource SuccessBrush}"
+                       TextWrapping="Wrap"/>
+            <Button Content="Save Permissions"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding SaveCommand}"
+                    HorizontalAlignment="Left"
+                    Margin="0,12,0,0"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

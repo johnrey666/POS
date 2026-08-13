@@ -1,12 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using POSSystem.Domain.Services;
 using POSSystem.Infrastructure.Data;
+using POSSystem.Domain.Models;
 
 namespace POSSystem.Infrastructure.Services;
 
 public sealed class ProductManagementService : IProductManagementService
 {
-    public async Task<IReadOnlyList<ProductManagementItem>> GetProductsAsync(CancellationToken cancellationToken = default)
+    public async Task<IList<ProductManagementItem>> GetProductsAsync(CancellationToken cancellationToken = default)
     {
         await using var context = DatabaseBootstrap.CreateContext();
 
@@ -74,4 +75,5 @@ public sealed class ProductManagementService : IProductManagementService
 
         await context.SaveChangesAsync(cancellationToken);
     }
+    
 }

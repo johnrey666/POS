@@ -1,12 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using POSSystem.Domain.Services;
 using POSSystem.Infrastructure.Data;
+using POSSystem.Domain.Models;
 
 namespace POSSystem.Infrastructure.Services;
 
 public sealed class ProductCatalogService : IProductCatalogService
 {
-    public async Task<IReadOnlyList<CategorySummary>> GetCategoriesAsync(CancellationToken cancellationToken = default)
+    public async Task<IList<CategorySummary>> GetCategoriesAsync(CancellationToken cancellationToken = default)
     {
         await using var context = DatabaseBootstrap.CreateContext();
 
@@ -22,7 +23,7 @@ public sealed class ProductCatalogService : IProductCatalogService
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyList<ProductSummary>> GetProductsAsync(int? categoryId = null, string? search = null, CancellationToken cancellationToken = default)
+    public async Task<IList<ProductSummary>> GetProductsAsync(int? categoryId = null, string? search = null, CancellationToken cancellationToken = default)
     {
         await using var context = DatabaseBootstrap.CreateContext();
 

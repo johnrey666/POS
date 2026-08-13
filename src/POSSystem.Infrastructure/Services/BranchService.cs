@@ -1,12 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using POSSystem.Domain.Services;
 using POSSystem.Infrastructure.Data;
+using POSSystem.Domain.Models;
 
 namespace POSSystem.Infrastructure.Services;
 
 public sealed class BranchService : IBranchService
 {
-    public async Task<IReadOnlyList<BranchSummary>> GetBranchesAsync(CancellationToken cancellationToken = default)
+    public async Task<IList<BranchSummary>> GetBranchesAsync(CancellationToken cancellationToken = default)
     {
         await using var context = DatabaseBootstrap.CreateContext();
 
@@ -60,4 +61,5 @@ public sealed class BranchService : IBranchService
                 })
             .ToListAsync(cancellationToken);
     }
+    
 }

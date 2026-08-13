@@ -9,25 +9,51 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!-- Header -->
         <StackPanel Grid.Row="0">
             <TextBlock Text="Role Permissions" Style="{StaticResource PageTitle}"/>
             <TextBlock Text="Select a role and enable or disable what it can access."
                        Style="{StaticResource PageSubtitle}"/>
         </StackPanel>
 
+        <!-- Role Selector -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,20,0,16">
             <TextBlock Text="Role"
                        VerticalAlignment="Center"
                        FontWeight="SemiBold"
-                       Margin="0,0,12,0"/>
+                       Foreground="{StaticResource TextSecondaryBrush}"
+                       Margin="0,0,14,0"/>
             <ComboBox ItemsSource="{Binding Roles}"
                       SelectedItem="{Binding SelectedRole}"
                       DisplayMemberPath="Name"
                       MinWidth="240"
-                      Padding="8,6"/>
+                      Padding="12,10"
+                      Background="{StaticResource SurfaceMediumBrush}"
+                      Foreground="{StaticResource TextPrimaryBrush}"
+                      BorderBrush="{StaticResource GlassBorderBrush}"
+                      BorderThickness="1.5">
+                <!-- Note: CornerRadius removed; style handles it -->
+                <ComboBox.Resources>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Background" Value="{StaticResource SurfaceMediumBrush}"/>
+                        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                        <Setter Property="Padding" Value="12,8"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource SurfaceLightBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{StaticResource AccentGradientBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextOnAccentBrush}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Resources>
+            </ComboBox>
         </StackPanel>
 
-        <Border Grid.Row="2" Style="{StaticResource CardBorder}" Padding="0">
+        <!-- Permissions Grid -->
+        <Border Grid.Row="2" Style="{StaticResource CardBorder}" Padding="0" Background="{StaticResource SurfaceMediumBrush}">
             <DataGrid ItemsSource="{Binding Permissions}"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
@@ -36,12 +62,20 @@
                       GridLinesVisibility="Horizontal"
                       BorderThickness="0"
                       Background="Transparent"
-                      RowBackground="White"
-                      AlternatingRowBackground="#F1F5F9">
+                      Style="{StaticResource PremiumDataGrid}"
+                      ColumnHeaderStyle="{StaticResource PremiumColumnHeader}"
+                      RowStyle="{StaticResource PremiumRow}">
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn Header="Enabled"
                                             Binding="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}"
-                                            Width="80"/>
+                                            Width="80">
+                        <DataGridCheckBoxColumn.ElementStyle>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridCheckBoxColumn.ElementStyle>
+                    </DataGridCheckBoxColumn>
                     <DataGridTextColumn Header="Permission" Binding="{Binding Name}" Width="220" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Code" Binding="{Binding Code}" Width="180" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="*" IsReadOnly="True"/>
@@ -49,6 +83,7 @@
             </DataGrid>
         </Border>
 
+        <!-- Footer Actions -->
         <StackPanel Grid.Row="3" Margin="0,16,0,0">
             <TextBlock Text="{Binding ErrorMessage}"
                        Foreground="{StaticResource ErrorBrush}"

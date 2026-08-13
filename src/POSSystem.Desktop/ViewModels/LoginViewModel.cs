@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Windows.Input;
 using POSSystem.Desktop.ViewModels;
@@ -15,7 +16,17 @@ public class LoginViewModel : ViewModelBase
     public LoginViewModel(Window loginWindow)
     {
         _loginWindow = loginWindow;
-        LoginCommand = new RelayCommand(async () => await LoginAsync(), () => !IsBusy && !string.IsNullOrWhiteSpace(Username));
+        LoginCommand = new RelayCommand(async () =>
+        {
+            try
+            {
+                await LoginAsync();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = "An unexpected error occurred. Please try again.";
+            }
+        }, () => !IsBusy && !string.IsNullOrWhiteSpace(Username));
     }
 
     public string Username
@@ -63,7 +74,9 @@ public class LoginViewModel : ViewModelBase
 
         try
         {
-            var result = await AppServices.Auth.LoginAsync(Username, Password);
+            // ✅ FIX: STRIP WHITESPACE BEFORE SENDING
+            var result = await AppServices.Auth.LoginAsync(Username.Trim(), Password.Trim());
+
             if (!result.Success)
             {
                 ErrorMessage = result.ErrorMessage;

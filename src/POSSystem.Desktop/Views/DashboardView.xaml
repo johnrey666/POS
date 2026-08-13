@@ -8,44 +8,52 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!-- Header -->
         <StackPanel Grid.Row="0">
             <TextBlock Text="Dashboard" Style="{StaticResource PageTitle}"/>
             <TextBlock Text="Multi-branch Point of Sale System" Style="{StaticResource PageSubtitle}"/>
         </StackPanel>
 
+        <!-- Main Content -->
         <Border Grid.Row="1"
                 Style="{StaticResource CardBorder}"
                 VerticalAlignment="Center"
-                MaxWidth="580"
-                HorizontalAlignment="Left">
+                MaxWidth="560"
+                HorizontalAlignment="Left"
+                Background="{StaticResource SurfaceMediumBrush}">
             <StackPanel>
                 <TextBlock Text="{Binding Message}"
                            TextWrapping="Wrap"
                            FontSize="14"
-                           LineHeight="22"
+                           LineHeight="24"
                            Foreground="{StaticResource TextPrimaryBrush}"/>
-                <Border Background="{StaticResource BackgroundBrush}"
-                        CornerRadius="10"
+
+                <Border Background="{StaticResource SurfaceLightBrush}"
+                        CornerRadius="14"
                         Padding="18"
-                        Margin="0,20,0,0">
+                        Margin="0,20,0,0"
+                        BorderBrush="{StaticResource GlassBorderBrush}"
+                        BorderThickness="1">
                     <StackPanel>
-                        <TextBlock Text="Your access"
+                        <TextBlock Text="Your Access"
                                    FontWeight="SemiBold"
                                    FontSize="13"
                                    Foreground="{StaticResource TextSecondaryBrush}"/>
                         <TextBlock Margin="0,8,0,0" FontSize="13"
                                    Text="{Binding DatabaseStatus, StringFormat=Database: {0}}"
                                    TextWrapping="Wrap"
-                                   Foreground="{StaticResource TextSecondaryBrush}"/>
+                                   Foreground="{StaticResource TextPrimaryBrush}"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
         </Border>
 
+        <!-- Footer -->
         <TextBlock Grid.Row="2"
                    HorizontalAlignment="Right"
                    FontSize="12"
-                   Foreground="{StaticResource TextSecondaryBrush}"
-                   Text="{Binding VersionDisplay, Mode=OneWay}"/>
+                   Foreground="{StaticResource TextTertiaryBrush}"
+                   Text="{Binding VersionDisplay, Mode=OneWay}"
+                   Margin="0,16,0,0"/>
     </Grid>
 </UserControl>

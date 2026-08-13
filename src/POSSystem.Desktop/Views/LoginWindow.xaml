@@ -1,94 +1,316 @@
+<!--LoginWindow.xaml-->
 <Window x:Class="POSSystem.Desktop.Views.LoginWindow"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Login" Width="850" Height="520" 
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        Title="Login"
+        Width="880"
+        Height="540"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
         MouseDown="Window_MouseDown">
 
     <Window.Resources>
-        <!-- Premium Colors -->
-        <SolidColorBrush x:Key="PrimaryColor" Color="#3B82F6"/>
-        <SolidColorBrush x:Key="PrimaryHoverColor" Color="#2563EB"/>
-        <SolidColorBrush x:Key="BackgroundDeep" Color="#0F172A"/>
-        <SolidColorBrush x:Key="BackgroundLighter" Color="#334155"/> 
-        <SolidColorBrush x:Key="BackgroundSurface" Color="#1E293B"/>
-        <SolidColorBrush x:Key="TextPrimary" Color="#F8FAFC"/>
-        <SolidColorBrush x:Key="TextSecondary" Color="#94A3B8"/>
-        
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+        <DropShadowEffect x:Key="LocalShadow" BlurRadius="24" ShadowDepth="4" Opacity="0.12" Color="#000000"/>
+
+        <!-- Dark gradient -->
+        <LinearGradientBrush x:Key="LocalAccentGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#0F0C29" Offset="0"/>
+            <GradientStop Color="#302B63" Offset="0.5"/>
+            <GradientStop Color="#24243E" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!-- Smaller tiles for dark theme -->
+        <Style x:Key="ShapeStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Background" Value="#18FFFFFF"/>
+            <Setter Property="Margin" Value="3"/>
+        </Style>
     </Window.Resources>
 
-    <!-- Main Rounded Card -->
-    <Border Background="{StaticResource BackgroundSurface}" CornerRadius="16" Effect="{StaticResource ShadowEffect}" Margin="20">
+    <Border Margin="16"
+            CornerRadius="20"
+            Background="White"
+            BorderBrush="#E5E5EA"
+            BorderThickness="1"
+            Effect="{StaticResource LocalShadow}">
+
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.4*"/>
-                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="0.42*"/>
+                <ColumnDefinition Width="0.58*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Custom Close Button -->
-            <Button Grid.ColumnSpan="2" Content="✕" Background="Transparent" BorderThickness="0" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,15,0" Click="CloseButton_Click" Cursor="Hand" FontSize="16"/>
+            <!-- Close button -->
+            <Button Grid.ColumnSpan="2"
+                    Content="✕"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Foreground="#8E8E93"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="0,14,18,0"
+                    Click="CloseButton_Click"
+                    Cursor="Hand"
+                    FontSize="15"
+                    Padding="6"
+                    Panel.ZIndex="20"/>
 
-            <!-- Left Branding Section -->
-            <Grid Grid.Column="0" Background="{StaticResource PrimaryColor}">
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock Text="🛒" FontSize="56" Foreground="White" HorizontalAlignment="Center"/>
-                    <TextBlock Text="PREMIUM POS" FontSize="26" FontWeight="Bold" Foreground="White" Margin="0,15,0,0"/>
-                    <TextBlock Text="Complete Retail System" FontSize="14" Foreground="#E0E7FF" Margin="0,5,0,0"/>
-                </StackPanel>
-            </Grid>
+            <!-- ========== LEFT PANEL ========== -->
+            <Border Grid.Column="0"
+                    CornerRadius="20,0,0,20"
+                    Background="{StaticResource LocalAccentGradient}"
+                    ClipToBounds="True">
 
-            <!-- Right Login Form Section -->
-            <Grid Grid.Column="1" Background="{StaticResource BackgroundDeep}">
                 <Grid>
-                    <!-- Login Form -->
-                    <StackPanel VerticalAlignment="Center" Margin="45,0">
-                        <TextBlock Text="Welcome Back" FontSize="28" FontWeight="Bold" Foreground="{StaticResource TextPrimary}" Margin="0,0,0,5"/>
-                        <TextBlock Text="Sign in to your account to continue" FontSize="14" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,35"/>
+                    <!-- ===== SMALLER SHAPE GRID ===== -->
+                    <UniformGrid Rows="12" Columns="7" Opacity="0.65">
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.45"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.25"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.55"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.30"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.40"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.20"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.50"/>
 
-                        <TextBlock Text="Email" FontSize="13" Foreground="{StaticResource TextSecondary}" Margin="0,0,5,5"/>
-                        <Border CornerRadius="8" Background="{StaticResource BackgroundSurface}" BorderBrush="{StaticResource BackgroundLighter}" BorderThickness="1" Height="45" Margin="0,0,0,20">
-                            <TextBox x:Name="UserNameTextBox" 
-                                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" 
-                                     FontSize="16" Foreground="{StaticResource TextPrimary}" 
-                                     Background="Transparent" BorderThickness="0" Padding="10" VerticalContentAlignment="Center"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.35"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.60"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.22"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.48"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.28"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.42"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.18"/>
+
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.50"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.15"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.55"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.32"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.40"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.25"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.45"/>
+
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.22"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.48"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.30"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.58"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.18"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.40"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.35"/>
+
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.42"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.20"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.50"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.28"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.45"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.15"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.38"/>
+
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.30"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.55"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.25"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.42"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.35"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.50"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.18"/>
+
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.48"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.22"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.40"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.30"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.55"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.28"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.45"/>
+
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.25"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.50"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.18"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.42"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.35"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.28"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.52"/>
+
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.40"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.15"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.48"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.30"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.45"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.22"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.38"/>
+
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.28"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.55"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.20"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.42"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.35"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.50"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.18"/>
+
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.45"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.25"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.40"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.30"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.52"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.22"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.38"/>
+
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.20"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.48"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.32"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.45"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.28"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.40"/>
+                        <Border Style="{StaticResource ShapeStyle}" Opacity="0.15"/>
+                    </UniformGrid>
+
+                    <!-- Soft dark overlay -->
+                    <Border Background="#66000000"/>
+
+                    <!-- ===== CONTENT ===== -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Title Logo -->
+                        <Image Grid.Row="0"
+                               Source="pack://application:,,,/POSSystem.Desktop;component/Assets/title.png"
+                               Stretch="Uniform"
+                               MaxHeight="100"
+                               HorizontalAlignment="Center"
+                               Margin="24,28,24,8"/>
+
+                        <!-- Animated GIF -->
+                        <Image Grid.Row="1"
+                               gif:AnimationBehavior.SourceUri="pack://application:,,,/POSSystem.Desktop;component/Assets/pos_machine.gif"
+                               gif:AnimationBehavior.AutoStart="True"
+                               Stretch="Uniform"
+                               MaxWidth="275"
+                               MaxHeight="275"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Margin="20,10,20,10"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
+
+                        <!-- Footer -->
+                        <StackPanel Grid.Row="2" Margin="0,0,0,26">
+                            <Border Height="1" Background="#40FFFFFF" Margin="40,0,40,14"/>
+                            <TextBlock Text="Fast  •  Secure  •  Multi-branch"
+                                       FontSize="12.5"
+                                       Foreground="#D0D0FF"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- ========== RIGHT FORM ========== -->
+            <Grid Grid.Column="1" Background="#F9F9FB">
+                <Grid>
+                    <StackPanel VerticalAlignment="Center" Margin="48,0">
+
+                        <TextBlock Text="Welcome back"
+                                   FontSize="26"
+                                   FontWeight="Bold"
+                                   Foreground="#1C1C1E"
+                                   Margin="0,0,0,4"/>
+
+                        <TextBlock Text="Sign in to continue to your terminal"
+                                   FontSize="14"
+                                   Foreground="#8E8E93"
+                                   Margin="0,0,0,32"/>
+
+                        <!-- Username -->
+                        <TextBlock Text="Username"
+                                   FontSize="13"
+                                   FontWeight="SemiBold"
+                                   Foreground="#3A3A3C"
+                                   Margin="0,0,0,6"/>
+
+                        <Border Background="White"
+                                BorderBrush="#E5E5EA"
+                                BorderThickness="1.5"
+                                CornerRadius="12"
+                                Height="48"
+                                Margin="0,0,0,18">
+                            <TextBox x:Name="UserNameTextBox"
+                                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Foreground="#1C1C1E"
+                                     CaretBrush="#007AFF"
+                                     FontSize="15"
+                                     Padding="14,0"
+                                     VerticalContentAlignment="Center"/>
                         </Border>
 
-                        <TextBlock Text="Password" FontSize="13" Foreground="{StaticResource TextSecondary}" Margin="0,0,5,5"/>
-                        <Border CornerRadius="8" Background="{StaticResource BackgroundSurface}" BorderBrush="{StaticResource BackgroundLighter}" BorderThickness="1" Height="45" Margin="0,0,0,15">
-                            <!-- ✅ FIX: ADDED THE MISSING PASSWORDCHANGED EVENT HERE -->
-                            <PasswordBox x:Name="PasswordBox" 
+                        <!-- Password -->
+                        <TextBlock Text="Password"
+                                   FontSize="13"
+                                   FontWeight="SemiBold"
+                                   Foreground="#3A3A3C"
+                                   Margin="0,0,0,6"/>
+
+                        <Border Background="White"
+                                BorderBrush="#E5E5EA"
+                                BorderThickness="1.5"
+                                CornerRadius="12"
+                                Height="48"
+                                Margin="0,0,0,12">
+                            <PasswordBox x:Name="PasswordBox"
                                          PasswordChanged="PasswordBox_OnPasswordChanged"
-                                         FontSize="16" Foreground="{StaticResource TextPrimary}" 
-                                         Background="Transparent" BorderThickness="0" Padding="10" 
-                                         VerticalContentAlignment="Center" PasswordChar="●" />
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         Foreground="#1C1C1E"
+                                         CaretBrush="#007AFF"
+                                         FontSize="15"
+                                         Padding="14,0"
+                                         VerticalContentAlignment="Center"
+                                         PasswordChar="●"/>
                         </Border>
 
-                        <TextBlock Text="{Binding ErrorMessage}" 
-                                   Foreground="#EF4444" 
-                                   FontSize="13" 
-                                   HorizontalAlignment="Center" 
-                                   Margin="0,5,0,15" 
-                                   TextWrapping="Wrap" 
-                                   MaxWidth="300"/>
+                        <!-- Error message -->
+                        <TextBlock Text="{Binding ErrorMessage}"
+                                   Foreground="#FF3B30"
+                                   FontSize="13"
+                                   HorizontalAlignment="Center"
+                                   TextWrapping="Wrap"
+                                   MaxWidth="320"
+                                   Margin="0,4,0,16"/>
 
-                        <Button Content="SIGN IN" 
-                                Command="{Binding LoginCommand}" 
-                                FontSize="15" FontWeight="Bold" 
-                                Background="{StaticResource PrimaryColor}" Foreground="White" BorderThickness="0" Height="50" Margin="0,0,0,5" Cursor="Hand">
+                        <!-- Sign In button -->
+                        <Button Content="Sign In"
+                                Command="{Binding LoginCommand}"
+                                Height="50"
+                                FontSize="15"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Cursor="Hand">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                                    <Border x:Name="btnBorder"
+                                            Background="#6366F1"
+                                            CornerRadius="12">
+                                        <Border.Effect>
+                                            <DropShadowEffect BlurRadius="12" ShadowDepth="3" Opacity="0.25" Color="#6366F1"/>
+                                        </Border.Effect>
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="{StaticResource PrimaryHoverColor}" />
+                                            <Setter TargetName="btnBorder" Property="Opacity" Value="0.9"/>
                                         </Trigger>
                                         <Trigger Property="IsEnabled" Value="False">
-                                            <Setter Property="Background" Value="#334155" />
-                                            <Setter Property="Opacity" Value="0.5" />
+                                            <Setter TargetName="btnBorder" Property="Opacity" Value="0.45"/>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
@@ -97,10 +319,16 @@
                     </StackPanel>
 
                     <!-- Loading Overlay -->
-                    <Border Background="#80000000" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}">
+                    <Border Background="#99FFFFFF"
+                            CornerRadius="0,20,20,0"
+                            Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Text="⏳" FontSize="40" Foreground="White" HorizontalAlignment="Center" />
-                            <TextBlock Text="Authenticating..." FontSize="16" Foreground="White" FontWeight="Bold" Margin="0,10,0,0"/>
+                            <TextBlock Text="⏳" FontSize="36" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Authenticating..."
+                                       FontSize="15"
+                                       Foreground="#1C1C1E"
+                                       FontWeight="SemiBold"
+                                       Margin="0,10,0,0"/>
                         </StackPanel>
                     </Border>
                 </Grid>

@@ -1,15 +1,15 @@
 <UserControl x:Class="POSSystem.Desktop.Views.PosView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="clr-namespace:POSSystem.Desktop.ViewModels">
-    <Grid Margin="0,0,0,0">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1.2*"/>
-            <ColumnDefinition Width="0.8*"/>
+            <ColumnDefinition Width="1.25*"/>
+            <ColumnDefinition Width="0.75*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- ========== LEFT: CATALOG ========== -->
-        <Grid Grid.Column="0" Margin="20,16,16,20">
+        <!-- LEFT: CATALOG -->
+        <Grid Grid.Column="0" Margin="20,16,12,18">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -17,56 +17,54 @@
             </Grid.RowDefinitions>
 
             <!-- Header -->
-            <Border Grid.Row="0" CornerRadius="18" Background="Transparent"
-                    BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="0"
-                    Padding="0" Margin="0,0,0,14">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Text="POS Terminal" Style="{StaticResource PageTitle}" FontSize="22"/>
-                        <TextBlock Text="Search, select, and sell items quickly." Style="{StaticResource PageSubtitle}"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <Border Background="#15FFFFFF" CornerRadius="10" Padding="12,7" Margin="0,0,0,4"
-                                BorderBrush="#30FFFFFF" BorderThickness="1">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE80F;" FontFamily="{StaticResource IconFont}" FontSize="12"
-                                           Foreground="{StaticResource AccentGlowBrush}" VerticalAlignment="Center"/>
-                                <TextBlock Text="{Binding BranchName, StringFormat=Branch: {0}}"
-                                           Foreground="{StaticResource TextPrimaryBrush}" FontSize="12" FontWeight="SemiBold"
-                                           Margin="6,0,0,0"/>
-                            </StackPanel>
-                        </Border>
-                        <TextBlock Text="{Binding TerminalName, StringFormat=Terminal: {0}}"
-                                   Foreground="{StaticResource TextSecondaryBrush}" FontSize="11" HorizontalAlignment="Right"/>
-                    </StackPanel>
-                </Grid>
-            </Border>
+            <Grid Grid.Row="0" Margin="0,0,0,14">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="POS Terminal" Style="{StaticResource PageTitle}" FontSize="22"/>
+                    <TextBlock Text="Search, select, and sell items quickly." Style="{StaticResource PageSubtitle}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Border Background="#F2F2F7" CornerRadius="9" Padding="11,6" Margin="0,0,0,3">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE80F;" FontFamily="{StaticResource IconFont}" FontSize="11"
+                                       Foreground="#007AFF" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding BranchName, StringFormat=Branch: {0}}"
+                                       Foreground="#1C1C1E" FontSize="12" FontWeight="SemiBold" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    <TextBlock Text="{Binding TerminalName, StringFormat=Terminal: {0}}"
+                               Foreground="#8E8E93" FontSize="11" HorizontalAlignment="Right"/>
+                </StackPanel>
+            </Grid>
 
             <!-- Search + Category -->
             <Grid Grid.Row="1" Margin="0,0,0,14">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="170"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0" Margin="0,0,12,0">
+                <Grid Grid.Column="0" Margin="0,0,10,0">
                     <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource InputTextBox}"
                              Height="44"
-                             Padding="42,10,14,10"
+                             Padding="40,0,12,0"
                              VerticalContentAlignment="Center"/>
-                    <TextBlock Text="&#xE721;" FontFamily="{StaticResource IconFont}" FontSize="15"
-                               Foreground="{StaticResource TextSecondaryBrush}"
-                               Margin="14,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" IsHitTestVisible="False"/>
+                    <TextBlock Text="&#xE721;" FontFamily="{StaticResource IconFont}" FontSize="14"
+                               Foreground="#8E8E93" Margin="14,0,0,0"
+                               VerticalAlignment="Center" HorizontalAlignment="Left" IsHitTestVisible="False"/>
                 </Grid>
 
-                <Border Grid.Column="1" Background="{StaticResource SurfaceMediumBrush}"
-                        CornerRadius="12" BorderBrush="{StaticResource GlassBorderBrush}"
-                        BorderThickness="1" Padding="8,0" Height="44">
+                <Border Grid.Column="1"
+                        Background="White"
+                        CornerRadius="12"
+                        BorderBrush="#E5E5EA"
+                        BorderThickness="1.5"
+                        Padding="6,0"
+                        Height="44">
                     <ComboBox ItemsSource="{Binding Categories}"
                               SelectedItem="{Binding SelectedCategory}"
                               DisplayMemberPath="Name"
@@ -76,7 +74,7 @@
             </Grid>
 
             <!-- Product Grid -->
-            <Border Grid.Row="2" Style="{StaticResource CardBorder}" Padding="14" Background="{StaticResource SurfaceMediumBrush}">
+            <Border Grid.Row="2" Style="{StaticResource CardBorder}" Padding="12">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <ItemsControl ItemsSource="{Binding Products}">
                         <ItemsControl.ItemsPanel>
@@ -86,17 +84,12 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Width="155" Height="120" Margin="6"
-                                        Style="{StaticResource ProductCardBorder}"
-                                        Padding="14">
+                                <Border Width="148" Height="118" Margin="5"
+                                        Style="{StaticResource ProductCardBorder}" Padding="12">
                                     <Button Command="{Binding DataContext.AddProductCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding}"
-                                            Background="Transparent"
-                                            BorderThickness="0"
-                                            Padding="0"
-                                            Cursor="Hand"
-                                            HorizontalContentAlignment="Stretch"
-                                            VerticalContentAlignment="Stretch">
+                                            Background="Transparent" BorderThickness="0" Padding="0" Cursor="Hand"
+                                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                                         <Button.Template>
                                             <ControlTemplate TargetType="Button">
                                                 <ContentPresenter/>
@@ -109,13 +102,14 @@
                                             </Grid.RowDefinitions>
                                             <StackPanel>
                                                 <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="13"
-                                                           TextWrapping="Wrap" Foreground="{StaticResource TextPrimaryBrush}"/>
-                                                <TextBlock Text="{Binding CategoryName}" Foreground="{StaticResource TextSecondaryBrush}"
-                                                           Margin="0,4,0,0" FontSize="10.5"/>
+                                                           TextWrapping="Wrap" Foreground="#1C1C1E"/>
+                                                <TextBlock Text="{Binding CategoryName}" Foreground="#8E8E93"
+                                                           Margin="0,3,0,0" FontSize="11"/>
                                             </StackPanel>
-                                            <Border Grid.Row="1" Style="{StaticResource PriceBadge}" HorizontalAlignment="Left" Margin="0,10,0,0">
+                                            <Border Grid.Row="1" Style="{StaticResource PriceBadge}"
+                                                    HorizontalAlignment="Left" Margin="0,8,0,0">
                                                 <TextBlock Text="{Binding SellingPrice, StringFormat=₱{0:N2}}"
-                                                           FontWeight="Bold" FontSize="12" Foreground="{StaticResource TextOnAccentBrush}"/>
+                                                           FontWeight="Bold" FontSize="12" Foreground="White"/>
                                             </Border>
                                         </Grid>
                                     </Button>
@@ -127,9 +121,8 @@
             </Border>
         </Grid>
 
-        <!-- ========== RIGHT: CART ========== -->
-        <Border Grid.Column="1" Style="{StaticResource CardBorder}" Padding="0" Margin="16,16,20,20"
-                Background="{StaticResource SurfaceMediumBrush}">
+        <!-- RIGHT: CART -->
+        <Border Grid.Column="1" Style="{StaticResource CardBorder}" Padding="0" Margin="8,16,18,18">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -138,20 +131,19 @@
                 </Grid.RowDefinitions>
 
                 <!-- Cart Header -->
-                <Border Grid.Row="0" CornerRadius="20,20,0,0" Background="{StaticResource CartHeaderGradientBrush}"
-                        Padding="20,16" BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="0,0,0,1">
+                <Border Grid.Row="0" CornerRadius="16,16,0,0" Background="#F9F9FB"
+                        Padding="16,14" BorderBrush="#E5E5EA" BorderThickness="0,0,0,1">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xE7BF;" FontFamily="{StaticResource IconFont}" FontSize="18"
-                                   Foreground="{StaticResource AccentGlowBrush}" VerticalAlignment="Center"/>
-                        <TextBlock Text="Cart" Foreground="{StaticResource TextPrimaryBrush}" FontWeight="Bold" FontSize="18" Margin="10,0,0,0"/>
+                        <TextBlock Text="&#xE7BF;" FontFamily="{StaticResource IconFont}" FontSize="16"
+                                   Foreground="#007AFF" VerticalAlignment="Center"/>
+                        <TextBlock Text="Cart" Foreground="#1C1C1E" FontWeight="Bold" FontSize="16" Margin="8,0,0,0"/>
                         <TextBlock Text="{Binding Cart.Count, StringFormat=({0} items)}"
-                                   Foreground="{StaticResource TextSecondaryBrush}" FontSize="13" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                   Foreground="#8E8E93" FontSize="13" Margin="8,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Border>
 
                 <!-- Cart Items -->
-                <DataGrid Grid.Row="1"
-                          Margin="12,8,12,0"
+                <DataGrid Grid.Row="1" Margin="10,6,10,0"
                           ItemsSource="{Binding Cart}"
                           Style="{StaticResource PremiumDataGrid}"
                           ColumnHeaderStyle="{StaticResource PremiumColumnHeader}"
@@ -159,16 +151,16 @@
                           Background="Transparent">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Item" Binding="{Binding ProductName}" Width="*" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="44" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Price" Binding="{Binding UnitPrice, StringFormat=₱{0:N2}}" Width="90" IsReadOnly="True"/>
-                        <DataGridTemplateColumn Header="" Width="76">
+                        <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="42" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Price" Binding="{Binding UnitPrice, StringFormat=₱{0:N2}}" Width="82" IsReadOnly="True"/>
+                        <DataGridTemplateColumn Header="" Width="70">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <Button Content="−" Style="{StaticResource QuantityButton}"
                                                 Command="{Binding DataContext.DecreaseQuantityCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 CommandParameter="{Binding}"/>
-                                        <Button Content="+" Style="{StaticResource QuantityButton}" Margin="4,0,0,0"
+                                        <Button Content="+" Style="{StaticResource QuantityButton}" Margin="3,0,0,0"
                                                 Command="{Binding DataContext.IncreaseQuantityCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 CommandParameter="{Binding}"/>
                                     </StackPanel>
@@ -179,51 +171,58 @@
                 </DataGrid>
 
                 <!-- Cart Footer -->
-                <StackPanel Grid.Row="2" Margin="16,12,16,16">
-                    <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource SuccessBrush}"
+                <StackPanel Grid.Row="2" Margin="14,10,14,14">
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="#34C759"
                                Margin="0,0,0,8" TextWrapping="Wrap" FontSize="12.5"/>
 
-                    <Border Background="{StaticResource SurfaceLightBrush}" CornerRadius="14" Padding="16,14"
-                            BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="1">
+                    <Border Background="#F9F9FB" CornerRadius="12" Padding="14,12"
+                            BorderBrush="#E5E5EA" BorderThickness="1">
                         <StackPanel>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="Subtotal" Foreground="{StaticResource TextSecondaryBrush}" FontSize="13"/>
-                                <TextBlock Grid.Column="1" Text="{Binding SubTotal, StringFormat=₱{0:N2}}" HorizontalAlignment="Right" FontWeight="SemiBold" FontSize="13"/>
+                                <TextBlock Text="Subtotal" Foreground="#8E8E93" FontSize="13"/>
+                                <TextBlock Grid.Column="1" Text="{Binding SubTotal, StringFormat=₱{0:N2}}"
+                                           HorizontalAlignment="Right" FontWeight="SemiBold" FontSize="13"/>
                             </Grid>
-                            <Grid Margin="0,8,0,0">
+                            <Grid Margin="0,6,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="Tax (12%)" Foreground="{StaticResource TextSecondaryBrush}" FontSize="13"/>
-                                <TextBlock Grid.Column="1" Text="{Binding Tax, StringFormat=₱{0:N2}}" HorizontalAlignment="Right" FontWeight="SemiBold" FontSize="13"/>
+                                <TextBlock Text="Tax (12%)" Foreground="#8E8E93" FontSize="13"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Tax, StringFormat=₱{0:N2}}"
+                                           HorizontalAlignment="Right" FontWeight="SemiBold" FontSize="13"/>
                             </Grid>
-                            <Border Height="1" Background="{StaticResource DividerBrush}" Margin="0,10,0,10"/>
+                            <Border Height="1" Background="#E5E5EA" Margin="0,9,0,9"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="Total" FontWeight="Bold" FontSize="15" Foreground="{StaticResource TextPrimaryBrush}"/>
-                                <TextBlock Grid.Column="1" Text="{Binding Total, StringFormat=₱{0:N2}}" HorizontalAlignment="Right"
-                                           FontWeight="Bold" FontSize="20" Foreground="{StaticResource AccentGlowBrush}"/>
+                                <TextBlock Text="Total" FontWeight="Bold" FontSize="14" Foreground="#1C1C1E"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Total, StringFormat=₱{0:N2}}"
+                                           HorizontalAlignment="Right" FontWeight="Bold" FontSize="18" Foreground="#007AFF"/>
                             </Grid>
                         </StackPanel>
                     </Border>
 
-                    <Grid Margin="0,12,0,0">
+                    <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="Hold" Margin="0,0,6,0" Command="{Binding HoldSaleCommand}" Style="{StaticResource SecondaryButton}"/>
-                        <Button Grid.Column="1" Content="Clear" Margin="6,0,0,0" Command="{Binding ClearCartCommand}" Style="{StaticResource DangerOutlineButton}"/>
+                        <Button Grid.Column="0" Content="Hold" Margin="0,0,5,0"
+                                Command="{Binding HoldSaleCommand}" Style="{StaticResource SecondaryButton}"/>
+                        <Button Grid.Column="1" Content="Clear" Margin="5,0,0,0"
+                                Command="{Binding ClearCartCommand}" Style="{StaticResource DangerOutlineButton}"/>
                     </Grid>
-                    <Button Content="Checkout" Margin="0,10,0,0" Command="{Binding CheckoutCommand}" Style="{StaticResource PrimaryButton}" Height="48"/>
+
+                    <Button Content="Checkout" Margin="0,9,0,0"
+                            Command="{Binding CheckoutCommand}"
+                            Style="{StaticResource PrimaryButton}" Height="48"/>
                 </StackPanel>
             </Grid>
         </Border>

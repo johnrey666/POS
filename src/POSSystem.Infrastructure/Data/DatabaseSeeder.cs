@@ -1,3 +1,4 @@
+//DatabaseSeeder.cs
 using Microsoft.EntityFrameworkCore;
 using POSSystem.Domain.Entities;
 using POSSystem.Domain.Security;

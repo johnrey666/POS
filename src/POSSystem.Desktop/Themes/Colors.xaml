@@ -2,48 +2,48 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- ======================================== -->
-    <!--  BASE DARK COLORS                        -->
+    <!--  BASE LIGHT COLORS (iOS-inspired)        -->
     <!-- ======================================== -->
-    <Color x:Key="BackgroundDark">#0A0A0F</Color>
-    <Color x:Key="BackgroundDarker">#060608</Color>
-    <Color x:Key="SurfaceDark">#14141E</Color>
-    <Color x:Key="SurfaceMedium">#1A1A2E</Color>
-    <Color x:Key="SurfaceLight">#22223A</Color>
-    <Color x:Key="SurfaceLighter">#2A2A44</Color>
+    <Color x:Key="BackgroundLight">#F2F2F7</Color>
+    <Color x:Key="BackgroundWhite">#FFFFFF</Color>
+    <Color x:Key="SurfacePrimary">#FFFFFF</Color>
+    <Color x:Key="SurfaceSecondary">#F9F9FB</Color>
+    <Color x:Key="SurfaceTertiary">#F2F2F7</Color>
+    <Color x:Key="SurfaceElevated">#FFFFFF</Color>
 
     <!-- ======================================== -->
-    <!--  GLASS / TRANSPARENT COLORS              -->
+    <!--  BORDER / DIVIDER                        -->
     <!-- ======================================== -->
-    <Color x:Key="GlassColor">#20FFFFFF</Color>
-    <Color x:Key="GlassBorderColor">#30FFFFFF</Color>
-    <Color x:Key="GlassHighlightColor">#15FFFFFF</Color>
+    <Color x:Key="BorderColor">#E5E5EA</Color>
+    <Color x:Key="BorderSubtle">#F0F0F5</Color>
+    <Color x:Key="DividerColor">#E5E5EA</Color>
 
     <!-- ======================================== -->
-    <!--  ACCENT GRADIENT COLORS                  -->
+    <!--  ACCENT (iOS Blue + soft violet)         -->
     <!-- ======================================== -->
-    <Color x:Key="AccentStart">#6366F1</Color>      <!-- Indigo -->
-    <Color x:Key="AccentMid">#8B5CF6</Color>        <!-- Violet -->
-    <Color x:Key="AccentEnd">#D946EF</Color>        <!-- Fuchsia -->
-    <Color x:Key="AccentGlow">#A855F7</Color>       <!-- Purple glow -->
+    <Color x:Key="AccentStart">#007AFF</Color>
+    <Color x:Key="AccentMid">#5856D6</Color>
+    <Color x:Key="AccentEnd">#AF52DE</Color>
+    <Color x:Key="AccentGlow">#5E5CE6</Color>
 
     <!-- ======================================== -->
-    <!--  SEMANTIC COLORS                         -->
+    <!--  SEMANTIC                                -->
     <!-- ======================================== -->
-    <Color x:Key="SuccessColor">#34D399</Color>
-    <Color x:Key="ErrorColor">#F87171</Color>
-    <Color x:Key="WarningColor">#FBBF24</Color>
-    <Color x:Key="InfoColor">#60A5FA</Color>
+    <Color x:Key="SuccessColor">#34C759</Color>
+    <Color x:Key="ErrorColor">#FF3B30</Color>
+    <Color x:Key="WarningColor">#FF9500</Color>
+    <Color x:Key="InfoColor">#007AFF</Color>
 
     <!-- ======================================== -->
-    <!--  TEXT COLORS                             -->
+    <!--  TEXT                                    -->
     <!-- ======================================== -->
-    <Color x:Key="TextPrimary">#FFFFFF</Color>
-    <Color x:Key="TextSecondary">#94A3B8</Color>
-    <Color x:Key="TextTertiary">#64748B</Color>
+    <Color x:Key="TextPrimary">#1C1C1E</Color>
+    <Color x:Key="TextSecondary">#8E8E93</Color>
+    <Color x:Key="TextTertiary">#AEAEB2</Color>
     <Color x:Key="TextOnAccent">#FFFFFF</Color>
 
     <!-- ======================================== -->
-    <!--  SHADOW / EFFECTS                        -->
+    <!--  SHADOW                                  -->
     <!-- ======================================== -->
     <Color x:Key="ShadowColor">#000000</Color>
 
@@ -51,23 +51,23 @@
     <!--  BRUSHES                                 -->
     <!-- ======================================== -->
 
-    <!-- Backgrounds -->
-    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundDark}"/>
-    <SolidColorBrush x:Key="BackgroundDarkerBrush" Color="{StaticResource BackgroundDarker}"/>
-    <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceDark}"/>
-    <SolidColorBrush x:Key="SurfaceMediumBrush" Color="{StaticResource SurfaceMedium}"/>
-    <SolidColorBrush x:Key="SurfaceLightBrush" Color="{StaticResource SurfaceLight}"/>
-    <SolidColorBrush x:Key="SurfaceLighterBrush" Color="{StaticResource SurfaceLighter}"/>
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundLight}"/>
+    <SolidColorBrush x:Key="BackgroundWhiteBrush" Color="{StaticResource BackgroundWhite}"/>
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfacePrimary}"/>
+    <SolidColorBrush x:Key="SurfaceSecondaryBrush" Color="{StaticResource SurfaceSecondary}"/>
+    <SolidColorBrush x:Key="SurfaceTertiaryBrush" Color="{StaticResource SurfaceTertiary}"/>
+    <SolidColorBrush x:Key="SurfaceElevatedBrush" Color="{StaticResource SurfaceElevated}"/>
 
-    <!-- Glass -->
-    <SolidColorBrush x:Key="GlassBrush" Color="{StaticResource GlassColor}"/>
-    <SolidColorBrush x:Key="GlassBorderBrush" Color="{StaticResource GlassBorderColor}"/>
-    <SolidColorBrush x:Key="GlassHighlightBrush" Color="{StaticResource GlassHighlightColor}"/>
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
+    <SolidColorBrush x:Key="BorderSubtleBrush" Color="{StaticResource BorderSubtle}"/>
+    <SolidColorBrush x:Key="DividerBrush" Color="{StaticResource DividerColor}"/>
 
-    <!-- Accent -->
+    <!-- Accent solid brush (needed for CaretBrush etc.) -->
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentStart}"/>
+
     <LinearGradientBrush x:Key="AccentGradientBrush" StartPoint="0,0" EndPoint="1,0">
         <GradientStop Color="{StaticResource AccentStart}" Offset="0"/>
-        <GradientStop Color="{StaticResource AccentMid}" Offset="0.5"/>
+        <GradientStop Color="{StaticResource AccentMid}" Offset="0.55"/>
         <GradientStop Color="{StaticResource AccentEnd}" Offset="1"/>
     </LinearGradientBrush>
 
@@ -81,26 +81,20 @@
         <GradientStop Color="{StaticResource AccentEnd}" Offset="1"/>
     </LinearGradientBrush>
 
-    <!-- Text -->
     <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimary}"/>
     <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondary}"/>
     <SolidColorBrush x:Key="TextTertiaryBrush" Color="{StaticResource TextTertiary}"/>
     <SolidColorBrush x:Key="TextOnAccentBrush" Color="{StaticResource TextOnAccent}"/>
 
-    <!-- Semantic -->
     <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}"/>
     <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}"/>
     <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource WarningColor}"/>
     <SolidColorBrush x:Key="InfoBrush" Color="{StaticResource InfoColor}"/>
 
-    <!-- Shadow -->
     <SolidColorBrush x:Key="ShadowColorBrush" Color="{StaticResource ShadowColor}"/>
 
     <!-- Sidebar -->
-    <LinearGradientBrush x:Key="SidebarGradientBrush" StartPoint="0,0" EndPoint="1,0">
-        <GradientStop Color="{StaticResource BackgroundDarker}" Offset="0"/>
-        <GradientStop Color="{StaticResource BackgroundDark}" Offset="1"/>
-    </LinearGradientBrush>
+    <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="#FFFFFF"/>
 
     <!-- Logo Tile -->
     <LinearGradientBrush x:Key="LogoTileGradientBrush" StartPoint="0,0" EndPoint="1,1">
@@ -108,19 +102,10 @@
         <GradientStop Color="{StaticResource AccentEnd}" Offset="1"/>
     </LinearGradientBrush>
 
-    <!-- Card Highlight -->
-    <LinearGradientBrush x:Key="CardHighlightBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="{StaticResource SurfaceMedium}" Offset="0"/>
-        <GradientStop Color="{StaticResource SurfaceDark}" Offset="1"/>
-    </LinearGradientBrush>
+    <!-- Card -->
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF"/>
 
     <!-- Cart Header -->
-    <LinearGradientBrush x:Key="CartHeaderGradientBrush" StartPoint="0,0" EndPoint="1,0">
-        <GradientStop Color="{StaticResource SurfaceDark}" Offset="0"/>
-        <GradientStop Color="{StaticResource SurfaceMedium}" Offset="1"/>
-    </LinearGradientBrush>
-
-    <!-- Divider -->
-    <SolidColorBrush x:Key="DividerBrush" Color="#2A2A44"/>
+    <SolidColorBrush x:Key="CartHeaderBrush" Color="#F9F9FB"/>
 
 </ResourceDictionary>

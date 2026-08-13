@@ -23,7 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\FODPOS-LOGO.png" />
+    <Resource Include="Assets\title.png" />
+    <Resource Include="Assets\pos_machine.gif" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="XamlAnimatedGif" Version="2.3.2" />
   </ItemGroup>
 
 </Project>

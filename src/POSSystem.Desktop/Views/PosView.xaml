@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <UserControl.Resources>
-        <!-- Category ListBox style -->
         <Style x:Key="CategoryListBox" TargetType="ListBox">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -43,7 +42,7 @@
             <ColumnDefinition Width="0.75*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- ===================== LEFT: CATALOG ===================== -->
+        <!-- LEFT: CATALOG -->
         <Grid Grid.Column="0" Margin="18,14,10,16">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -89,7 +88,7 @@
                            VerticalAlignment="Center" HorizontalAlignment="Left" IsHitTestVisible="False"/>
             </Grid>
 
-            <!-- Categories Sidebar + Products -->
+            <!-- Categories + Products -->
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="155"/>
@@ -97,32 +96,27 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-<!-- ===== CATEGORY SIDEBAR (with highlight) ===== -->
-<Border Grid.Column="0" Style="{StaticResource CardBorder}" Padding="8">
-    <DockPanel>
-        <TextBlock DockPanel.Dock="Top" 
-                   Text="CATEGORIES" 
-                   FontSize="11" 
-                   FontWeight="SemiBold"
-                   Foreground="{DynamicResource TextSecondaryBrush}"
-                   Margin="8,4,0,10" 
-                   Opacity="0.85"/>
+                <!-- Category Sidebar -->
+                <Border Grid.Column="0" Style="{StaticResource CardBorder}" Padding="8">
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Top" Text="CATEGORIES" FontSize="11" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextSecondaryBrush}"
+                                   Margin="8,4,0,10" Opacity="0.85"/>
 
-        <ListBox Style="{StaticResource CategoryListBox}"
-                 ItemContainerStyle="{StaticResource CategoryListBoxItem}"
-                 ItemsSource="{Binding Categories}"
-                 SelectedItem="{Binding SelectedCategory}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name}" 
-                               FontSize="13" 
-                               FontWeight="SemiBold"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-    </DockPanel>
-</Border>
-                <!-- ===== PRODUCT GRID ===== -->
+                        <ListBox Style="{StaticResource CategoryListBox}"
+                                 ItemContainerStyle="{StaticResource CategoryListBoxItem}"
+                                 ItemsSource="{Binding Categories}"
+                                 SelectedItem="{Binding SelectedCategory}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="SemiBold"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+                </Border>
+
+                <!-- Product Grid -->
                 <Border Grid.Column="2" Style="{StaticResource CardBorder}" Padding="10">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <ItemsControl ItemsSource="{Binding Products}">
@@ -149,7 +143,6 @@
                                                     <RowDefinition Height="*"/>
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
-
                                                 <StackPanel>
                                                     <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="13"
                                                                TextWrapping="Wrap" Foreground="{DynamicResource TextPrimaryBrush}"
@@ -158,7 +151,6 @@
                                                                Foreground="{DynamicResource TextSecondaryBrush}"
                                                                Margin="0,4,0,0" FontSize="11"/>
                                                 </StackPanel>
-
                                                 <Border Grid.Row="1" Style="{StaticResource PriceBadge}"
                                                         HorizontalAlignment="Left" Margin="0,8,0,0">
                                                     <TextBlock Text="{Binding SellingPrice, StringFormat=₱{0:N2}}"
@@ -176,7 +168,7 @@
             </Grid>
         </Grid>
 
-        <!-- ===================== RIGHT: CART ===================== -->
+        <!-- RIGHT: CART -->
         <Border Grid.Column="1" Style="{StaticResource CardBorder}" Padding="0" Margin="6,14,16,16">
             <Grid>
                 <Grid.RowDefinitions>
@@ -232,13 +224,12 @@
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <!-- Cart Footer (NO TAX) -->
+                <!-- Cart Footer -->
                 <StackPanel Grid.Row="2" Margin="12,8,12,12">
                     <TextBlock Text="{Binding StatusMessage}"
                                Foreground="{DynamicResource SuccessBrush}"
                                Margin="0,0,0,8" TextWrapping="Wrap" FontSize="12.5"/>
 
-                    <!-- Totals box -->
                     <Border Background="{DynamicResource SurfaceSecondaryBrush}"
                             CornerRadius="10" Padding="14,12"
                             BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
@@ -255,7 +246,6 @@
                         </Grid>
                     </Border>
 
-                    <!-- Action buttons -->
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>

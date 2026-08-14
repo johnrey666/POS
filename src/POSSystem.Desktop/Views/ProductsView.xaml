@@ -1,3 +1,4 @@
+<!--ProductsView.xaml-->
 <UserControl x:Class="POSSystem.Desktop.Views.ProductsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
@@ -22,7 +23,7 @@
 
                 <StackPanel Grid.Row="0" Margin="16,12,16,6">
                     <TextBlock Text="{Binding StatusMessage}"
-                               Foreground="#34C759"
+                               Foreground="{DynamicResource SuccessBrush}"
                                FontWeight="SemiBold"
                                FontSize="13"/>
                 </StackPanel>

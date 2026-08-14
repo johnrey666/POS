@@ -1,4 +1,3 @@
-//LoginViewModel.cs
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -23,8 +22,10 @@ public class LoginViewModel : ViewModelBase
             {
                 await LoginAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                // Log the exception for debugging
+                Console.WriteLine($"Login exception: {ex}");
                 ErrorMessage = "An unexpected error occurred. Please try again.";
             }
         }, () => !IsBusy && !string.IsNullOrWhiteSpace(Username));
@@ -75,22 +76,33 @@ public class LoginViewModel : ViewModelBase
 
         try
         {
-            // ✅ FIX: STRIP WHITESPACE BEFORE SENDING
-            var result = await AppServices.Auth.LoginAsync(Username.Trim(), Password.Trim());
+            // Trim inputs to avoid whitespace issues
+            var trimmedUsername = Username?.Trim() ?? string.Empty;
+            var trimmedPassword = Password?.Trim() ?? string.Empty;
+
+            Console.WriteLine($"Attempting login for user: '{trimmedUsername}'");
+
+            var result = await AppServices.Auth.LoginAsync(trimmedUsername, trimmedPassword);
+
+            // Log the result for debugging
+            Console.WriteLine($"Login result: Success={result.Success}, ErrorMessage={result.ErrorMessage}");
 
             if (!result.Success)
             {
-                ErrorMessage = result.ErrorMessage;
+                // Display the specific error message from the service
+                ErrorMessage = result.ErrorMessage ?? "Unable to sign in. Please try again.";
                 return;
             }
 
+            // Login successful - open main window
             var shell = new Views.MainWindow();
             shell.Show();
             _loginWindow.Close();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            ErrorMessage = "Unable to sign in. Please try again.";
+            Console.WriteLine($"Exception during login: {ex.Message}");
+            ErrorMessage = "An unexpected error occurred. Please try again.";
         }
         finally
         {

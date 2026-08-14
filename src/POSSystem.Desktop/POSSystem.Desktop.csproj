@@ -25,6 +25,7 @@
   <ItemGroup>
     <Resource Include="Assets\title.png" />
     <Resource Include="Assets\pos_machine.gif" />
+    <Resource Include="Assets\jnri-pos-logo.png" />
   </ItemGroup>
 
   <ItemGroup>

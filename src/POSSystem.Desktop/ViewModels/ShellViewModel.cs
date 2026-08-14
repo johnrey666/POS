@@ -1,5 +1,7 @@
+using System;
+using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Input;
 using POSSystem.Domain.Security;
 using POSSystem.Desktop.ViewModels;
 
@@ -9,6 +11,7 @@ public class ShellViewModel : ViewModelBase
 {
     private object? _currentView;
     private string _currentPage = "dashboard";
+    private bool _isDarkMode;
 
     public ShellViewModel()
     {
@@ -28,6 +31,10 @@ public class ShellViewModel : ViewModelBase
         NavigateProductsCommand = new RelayCommand(() => Navigate("products", new ProductsViewModel()));
         NavigatePermissionsCommand = new RelayCommand(() => Navigate("permissions", new RolePermissionsViewModel()));
         LogoutCommand = new RelayCommand(Logout);
+        ToggleDarkModeCommand = new RelayCommand(ToggleDarkMode);
+
+        // Load saved theme preference (optional – default to Light)
+        IsDarkMode = false; // or read from settings
 
         if (CanAccessPos)
             Navigate("pos", new PosViewModel());
@@ -59,11 +66,22 @@ public class ShellViewModel : ViewModelBase
         set => SetProperty(ref _currentView, value);
     }
 
+    public bool IsDarkMode
+    {
+        get => _isDarkMode;
+        set
+        {
+            if (SetProperty(ref _isDarkMode, value))
+                ApplyTheme(value);
+        }
+    }
+
     public RelayCommand NavigateDashboardCommand { get; }
     public RelayCommand NavigatePosCommand { get; }
     public RelayCommand NavigateProductsCommand { get; }
     public RelayCommand NavigatePermissionsCommand { get; }
     public RelayCommand LogoutCommand { get; }
+    public RelayCommand ToggleDarkModeCommand { get; }
 
     private void Navigate(string page, object view)
     {
@@ -85,5 +103,47 @@ public class ShellViewModel : ViewModelBase
                 break;
             }
         }
+    }
+
+    private void ToggleDarkMode()
+    {
+        IsDarkMode = !IsDarkMode;
+    }
+
+    // THE CRITICAL FIX IS HERE
+    private void ApplyTheme(bool dark)
+    {
+        var mergedDictionaries = Application.Current.Resources.MergedDictionaries;
+
+        // 1. Find and remove the currently loaded color dictionary
+        var currentColorDict = mergedDictionaries.FirstOrDefault(d => 
+            d.Source.ToString().Contains("Colors.xaml") || 
+            d.Source.ToString().Contains("Dark.xaml"));
+
+        if (currentColorDict != null)
+            mergedDictionaries.Remove(currentColorDict);
+
+        // 2. Find and remove the currently loaded styles dictionary
+        var currentStyleDict = mergedDictionaries.FirstOrDefault(d => 
+            d.Source.ToString().Contains("Styles.xaml"));
+
+        if (currentStyleDict != null)
+            mergedDictionaries.Remove(currentStyleDict);
+
+        // 3. Load the correct color dictionary (Colors.xaml for Light, Dark.xaml for Dark)
+        string colorPath = dark 
+            ? "/POSSystem.Desktop;component/Themes/Dark.xaml" 
+            : "/POSSystem.Desktop;component/Themes/Colors.xaml";
+
+        mergedDictionaries.Add(new ResourceDictionary 
+        { 
+            Source = new Uri(colorPath, UriKind.Relative) 
+        });
+
+        // 4. ALWAYS reload the Styles.xaml dictionary, or all your button/card styling will vanish!
+        mergedDictionaries.Add(new ResourceDictionary 
+        { 
+            Source = new Uri("/POSSystem.Desktop;component/Themes/Styles.xaml", UriKind.Relative) 
+        });
     }
 }

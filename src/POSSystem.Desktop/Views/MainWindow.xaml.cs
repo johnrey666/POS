@@ -1,25 +1,62 @@
 using System.Windows;
 using System.Windows.Controls;
-using POSSystem.Desktop.Converters;
 using POSSystem.Desktop.ViewModels;
 
 namespace POSSystem.Desktop.Views;
 
 public partial class MainWindow : Window
 {
+    private ShellViewModel? _viewModel;
+
     public MainWindow()
     {
         InitializeComponent();
+        DataContextChanged += OnDataContextChanged;
         DataContext = new ShellViewModel();
     }
 
-    private void NavButton_Loaded(object sender, RoutedEventArgs e)
+    private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-        if (sender is not Button button || DataContext is not ShellViewModel shell)
-            return;
+        // Unsubscribe from old ViewModel if exists
+        if (_viewModel != null)
+        {
+            _viewModel.PropertyChanged -= OnViewModelPropertyChanged;
+        }
 
-        var page = button.Tag as string;
-        var isActive = string.Equals(shell.CurrentPage, page, StringComparison.OrdinalIgnoreCase);
-        button.Style = (Style)FindResource(isActive ? "NavButtonActive" : "NavButton");
+        // Set new ViewModel and subscribe to changes
+        _viewModel = DataContext as ShellViewModel;
+        if (_viewModel != null)
+        {
+            _viewModel.PropertyChanged += OnViewModelPropertyChanged;
+            // Force highlight update immediately on startup
+            UpdateNavStyles(_viewModel.CurrentPage);
+        }
+    }
+
+    private void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        // Only react when the CurrentPage changes
+        if (e.PropertyName == nameof(ShellViewModel.CurrentPage) && _viewModel != null)
+        {
+            UpdateNavStyles(_viewModel.CurrentPage);
+        }
+    }
+
+    private void UpdateNavStyles(string currentPage)
+    {
+        if (NavLinksStackPanel == null) return;
+
+        // Loop through every button in the center navigation panel
+        foreach (UIElement child in NavLinksStackPanel.Children)
+        {
+            if (child is Button btn)
+            {
+                var page = btn.Tag as string;
+                var isActive = string.Equals(currentPage, page, StringComparison.OrdinalIgnoreCase);
+                
+                // Apply the correct style
+                btn.Style = (Style)FindResource(isActive ? "TopNavLinkActive" : "TopNavLink");
+            }
+        }
     }
 }

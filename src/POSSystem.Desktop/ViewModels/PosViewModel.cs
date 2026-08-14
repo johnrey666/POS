@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
 using POSSystem.Infrastructure.Data;
@@ -104,16 +105,13 @@ public class PosViewModel : ViewModelBase
             if (SetProperty(ref _isBusy, value))
             {
                 CommandManager.InvalidateRequerySuggested();
-                OnPropertyChanged(nameof(SubTotal));
-                OnPropertyChanged(nameof(Tax));
                 OnPropertyChanged(nameof(Total));
             }
         }
     }
 
-    public decimal SubTotal => Cart.Sum(item => item.LineTotal);
-    public decimal Tax => SubTotal * 0.12m;
-    public decimal Total => SubTotal + Tax;
+    // Tax removed
+    public decimal Total => Cart.Sum(item => item.LineTotal);
 
     public ICommand AddProductCommand { get; }
     public ICommand IncreaseQuantityCommand { get; }
@@ -138,8 +136,8 @@ public class PosViewModel : ViewModelBase
             foreach (var category in categories)
                 Categories.Add(category);
 
-            if (categories.Count > 0 && SelectedCategory is null)
-                SelectedCategory = categories[0];
+            // Start with All Items
+            SelectedCategory = null;
         }
         catch (Exception)
         {
@@ -174,7 +172,6 @@ public class PosViewModel : ViewModelBase
         var existing = Cart.FirstOrDefault(item => item.ProductId == product.Id);
         if (existing is null)
         {
-            // FIX: Added semicolon at the end (already present, but ensure it's there)
             Cart.Add(new CartLineViewModel(product.Id, product.Name, product.SellingPrice, product.Barcode ?? string.Empty));
         }
         else
@@ -184,8 +181,6 @@ public class PosViewModel : ViewModelBase
         }
 
         StatusMessage = $"Added {product.Name} to cart.";
-        OnPropertyChanged(nameof(SubTotal));
-        OnPropertyChanged(nameof(Tax));
         OnPropertyChanged(nameof(Total));
         CommandManager.InvalidateRequerySuggested();
     }
@@ -197,14 +192,16 @@ public class PosViewModel : ViewModelBase
 
         line.Quantity += 1;
         line.NotifyChanged();
-        OnPropertyChanged(nameof(SubTotal));
-        OnPropertyChanged(nameof(Tax));
         OnPropertyChanged(nameof(Total));
     }
 
     private void DecreaseQuantity(CartLineViewModel? line)
     {
         if (line is null)
+            return;
+
+        // Require supervisor approval for ANY quantity decrease
+        if (!RequestSupervisorAccess("Decrease item quantity"))
             return;
 
         if (line.Quantity <= 1)
@@ -217,8 +214,6 @@ public class PosViewModel : ViewModelBase
             line.NotifyChanged();
         }
 
-        OnPropertyChanged(nameof(SubTotal));
-        OnPropertyChanged(nameof(Tax));
         OnPropertyChanged(nameof(Total));
     }
 
@@ -227,18 +222,23 @@ public class PosViewModel : ViewModelBase
         if (line is null)
             return;
 
+        if (!RequestSupervisorAccess("Remove item from cart"))
+            return;
+
         Cart.Remove(line);
-        OnPropertyChanged(nameof(SubTotal));
-        OnPropertyChanged(nameof(Tax));
         OnPropertyChanged(nameof(Total));
     }
 
     private void ClearCart()
     {
+        if (Cart.Count == 0)
+            return;
+
+        if (!RequestSupervisorAccess("Clear entire cart"))
+            return;
+
         Cart.Clear();
         StatusMessage = "Cart cleared.";
-        OnPropertyChanged(nameof(SubTotal));
-        OnPropertyChanged(nameof(Tax));
         OnPropertyChanged(nameof(Total));
     }
 
@@ -276,8 +276,6 @@ public class PosViewModel : ViewModelBase
 
             StatusMessage = $"Sale complete — receipt {receiptNumber}. Total {Total:C}.";
             Cart.Clear();
-            OnPropertyChanged(nameof(SubTotal));
-            OnPropertyChanged(nameof(Tax));
             OnPropertyChanged(nameof(Total));
         }
         catch (Exception ex)
@@ -303,10 +301,74 @@ public class PosViewModel : ViewModelBase
 
         StatusMessage = $"Sale held for later — {receiptNumber}.";
         Cart.Clear();
-        OnPropertyChanged(nameof(SubTotal));
-        OnPropertyChanged(nameof(Tax));
         OnPropertyChanged(nameof(Total));
     }
+
+    /// <summary>
+    /// Shows a single dialog with Username + Password.
+    /// Returns true only if credentials are valid.
+    /// </summary>
+    private bool RequestSupervisorAccess(string actionDescription)
+{
+    var dialog = new Views.SupervisorLoginDialog(actionDescription);
+
+    // Safely set the owner (prevents "Cannot set Owner property to itself")
+    var activeWindow = Application.Current.Windows
+        .OfType<Window>()
+        .FirstOrDefault(w => w.IsActive);
+
+    if (activeWindow != null && !ReferenceEquals(activeWindow, dialog))
+    {
+        dialog.Owner = activeWindow;
+    }
+    else if (Application.Current.MainWindow != null && 
+             !ReferenceEquals(Application.Current.MainWindow, dialog))
+    {
+        dialog.Owner = Application.Current.MainWindow;
+    }
+
+    var result = dialog.ShowDialog();
+    if (result != true)
+        return false;
+
+    try
+    {
+        var authResult = AppServices.Auth
+            .LoginAsync(dialog.Username, dialog.Password)
+            .GetAwaiter()
+            .GetResult();
+
+        if (authResult is null || !authResult.Success)
+        {
+            MessageBox.Show(
+                authResult?.ErrorMessage ?? "Invalid supervisor credentials.",
+                "Access Denied",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+            return false;
+        }
+
+        // Optional role check (uncomment when ready)
+        // if (authResult.User?.Role is not ("Supervisor" or "Manager" or "Admin"))
+        // {
+        //     MessageBox.Show("This account does not have supervisor privileges.",
+        //         "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
+        //     AppServices.Auth.Logout();
+        //     return false;
+        // }
+
+        // Log out supervisor so the original cashier stays logged in
+        AppServices.Auth.Logout();
+
+        return true;
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show($"Authentication error: {ex.Message}", "Error",
+            MessageBoxButton.OK, MessageBoxImage.Error);
+        return false;
+    }
+}
 }
 
 public sealed class RecentSaleSummary

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using POSSystem.Domain.Models;
 using POSSystem.Domain.Services;
 using POSSystem.Infrastructure.Data;
-using POSSystem.Domain.Models;
 
 namespace POSSystem.Infrastructure.Services;
 
@@ -19,12 +19,12 @@ public sealed class BranchService : IBranchService
                 Id = b.Id,
                 Name = b.Name,
                 Code = b.Code,
-                Address = b.Address
+                IsActive = b.IsActive
             })
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyList<TerminalSummary>> GetTerminalsAsync(int branchId, CancellationToken cancellationToken = default)
+    public async Task<IList<TerminalSummary>> GetTerminalsAsync(int branchId, CancellationToken cancellationToken = default)
     {
         await using var context = DatabaseBootstrap.CreateContext();
 
@@ -35,31 +35,25 @@ public sealed class BranchService : IBranchService
             {
                 Id = t.Id,
                 Name = t.Name,
-                Code = t.Code,
-                BranchId = t.BranchId
+                SerialNumber = t.Code,           // Map entity's Code to DTO's SerialNumber
+                IsActive = t.IsActive
             })
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyList<BranchSummary>> GetUserBranchesAsync(int userId, CancellationToken cancellationToken = default)
+    public async Task<BranchSummary?> GetBranchAsync(int branchId, CancellationToken cancellationToken = default)
     {
         await using var context = DatabaseBootstrap.CreateContext();
 
-        return await context.Users
-            .Where(u => u.Id == userId && u.BranchId.HasValue)
-            .Select(u => new { u.BranchId })
-            .Join(
-                context.Branches,
-                u => u.BranchId,
-                b => b.Id,
-                (u, b) => new BranchSummary
-                {
-                    Id = b.Id,
-                    Name = b.Name,
-                    Code = b.Code,
-                    Address = b.Address
-                })
-            .ToListAsync(cancellationToken);
+        return await context.Branches
+            .Where(b => b.Id == branchId)
+            .Select(b => new BranchSummary
+            {
+                Id = b.Id,
+                Name = b.Name,
+                Code = b.Code,
+                IsActive = b.IsActive
+            })
+            .FirstOrDefaultAsync(cancellationToken);
     }
-    
 }

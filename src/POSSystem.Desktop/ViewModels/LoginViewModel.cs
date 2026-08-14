@@ -23,7 +23,7 @@ public class LoginViewModel : ViewModelBase
             {
                 await LoginAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ErrorMessage = "An unexpected error occurred. Please try again.";
             }

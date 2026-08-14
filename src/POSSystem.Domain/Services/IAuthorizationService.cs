@@ -1,3 +1,5 @@
+//POSSystem.Domain/Services/IAuthorizationService.cs
+
 using POSSystem.Domain.Models;
 
 namespace POSSystem.Domain.Services;

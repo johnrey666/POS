@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using POSSystem.Domain.Services;
+using POSSystem.Domain.Models;
 
 namespace POSSystem.Desktop.ViewModels;
 

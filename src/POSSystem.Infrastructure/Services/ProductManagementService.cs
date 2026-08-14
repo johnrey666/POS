@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using POSSystem.Domain.Models;
 using POSSystem.Domain.Services;
 using POSSystem.Infrastructure.Data;
-using POSSystem.Domain.Models;
 
 namespace POSSystem.Infrastructure.Services;
 
@@ -18,17 +18,39 @@ public sealed class ProductManagementService : IProductManagementService
             .Select(p => new ProductManagementItem
             {
                 Id = p.Id,
-                Sku = p.Sku,
-                Barcode = p.Barcode,
                 Name = p.Name,
-                CategoryId = p.CategoryId,
-                CategoryName = p.Category.Name,
-                CostPrice = p.CostPrice,
+                Barcode = p.Barcode,
+                Sku = p.Sku,
                 SellingPrice = p.SellingPrice,
                 StockQuantity = p.StockQuantity,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category.Name,
                 IsActive = p.IsActive
             })
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<ProductManagementItem?> GetProductAsync(int productId, CancellationToken cancellationToken = default)
+    {
+        await using var context = DatabaseBootstrap.CreateContext();
+
+        return await context.Products
+            .AsNoTracking()
+            .Include(p => p.Category)
+            .Where(p => p.Id == productId)
+            .Select(p => new ProductManagementItem
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Barcode = p.Barcode,
+                Sku = p.Sku,
+                SellingPrice = p.SellingPrice,
+                StockQuantity = p.StockQuantity,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category.Name,
+                IsActive = p.IsActive
+            })
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task CreateProductAsync(ProductManagementItem product, CancellationToken cancellationToken = default)
@@ -40,13 +62,12 @@ public sealed class ProductManagementService : IProductManagementService
 
         var entity = new POSSystem.Domain.Entities.Product
         {
-            Sku = product.Sku,
-            Barcode = product.Barcode,
             Name = product.Name,
-            CategoryId = product.CategoryId,
-            CostPrice = product.CostPrice,
+            Barcode = product.Barcode ?? string.Empty,
+            Sku = product.Sku ?? string.Empty,
             SellingPrice = product.SellingPrice,
             StockQuantity = product.StockQuantity,
+            CategoryId = product.CategoryId,
             IsActive = product.IsActive,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
@@ -63,17 +84,15 @@ public sealed class ProductManagementService : IProductManagementService
         var entity = await context.Products.FirstOrDefaultAsync(p => p.Id == product.Id, cancellationToken)
             ?? throw new InvalidOperationException("Product not found.");
 
-        entity.Sku = product.Sku;
-        entity.Barcode = product.Barcode;
         entity.Name = product.Name;
-        entity.CategoryId = product.CategoryId;
-        entity.CostPrice = product.CostPrice;
+        entity.Barcode = product.Barcode ?? string.Empty;
+        entity.Sku = product.Sku ?? string.Empty;
         entity.SellingPrice = product.SellingPrice;
         entity.StockQuantity = product.StockQuantity;
+        entity.CategoryId = product.CategoryId;
         entity.IsActive = product.IsActive;
         entity.UpdatedAt = DateTime.UtcNow;
 
         await context.SaveChangesAsync(cancellationToken);
     }
-    
 }

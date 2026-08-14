@@ -1,8 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
-using POSSystem.Domain.Services;
 using POSSystem.Infrastructure.Data;
+using POSSystem.Domain.Models;
 
 namespace POSSystem.Desktop.ViewModels;
 
@@ -174,7 +174,8 @@ public class PosViewModel : ViewModelBase
         var existing = Cart.FirstOrDefault(item => item.ProductId == product.Id);
         if (existing is null)
         {
-            Cart.Add(new CartLineViewModel(product.Id, product.Name, product.SellingPrice, product.Barcode));
+            // FIX: Added semicolon at the end (already present, but ensure it's there)
+            Cart.Add(new CartLineViewModel(product.Id, product.Name, product.SellingPrice, product.Barcode ?? string.Empty));
         }
         else
         {

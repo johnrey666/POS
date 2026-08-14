@@ -12,4 +12,8 @@ public record AuthenticatedUser
     public string BranchName { get; init; } = string.Empty;
     public int TerminalId { get; init; }
     public string TerminalName { get; init; } = string.Empty;
+
+    // Add this method
+    public bool HasPermission(string permissionCode)
+        => Permissions.Contains(permissionCode);
 }

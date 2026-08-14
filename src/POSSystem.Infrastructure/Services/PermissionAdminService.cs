@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using POSSystem.Domain.Models;
 using POSSystem.Domain.Services;
 using POSSystem.Infrastructure.Data;
-using POSSystem.Domain.Models;
+using POSSystem.Domain.Security;  // for PermissionCodes
 
 namespace POSSystem.Infrastructure.Services;
 
@@ -18,7 +19,8 @@ public sealed class PermissionAdminService : IPermissionAdminService
 
     public async Task<IList<RoleSummary>> GetRolesAsync(CancellationToken cancellationToken = default)
     {
-        _authorizationService.EnsurePermission(Domain.Security.PermissionCodes.PermissionsManage);
+        if (!_authorizationService.HasPermission(PermissionCodes.PermissionsManage))
+            throw new UnauthorizedAccessException("Permission denied: PermissionsManage");
 
         await using var context = DatabaseBootstrap.CreateContext();
         return await context.Roles
@@ -34,7 +36,8 @@ public sealed class PermissionAdminService : IPermissionAdminService
 
     public async Task<IList<RolePermissionItem>> GetRolePermissionsAsync(int roleId, CancellationToken cancellationToken = default)
     {
-        _authorizationService.EnsurePermission(Domain.Security.PermissionCodes.PermissionsManage);
+        if (!_authorizationService.HasPermission(PermissionCodes.PermissionsManage))
+            throw new UnauthorizedAccessException("Permission denied: PermissionsManage");
 
         await using var context = DatabaseBootstrap.CreateContext();
 
@@ -57,9 +60,10 @@ public sealed class PermissionAdminService : IPermissionAdminService
             .ToListAsync(cancellationToken);
     }
 
-    public async Task SaveRolePermissionsAsync(int roleId, IReadOnlyCollection<int> enabledPermissionIds, CancellationToken cancellationToken = default)
+    public async Task SaveRolePermissionsAsync(int roleId, IEnumerable<int> enabledPermissionIds, CancellationToken cancellationToken = default)
     {
-        _authorizationService.EnsurePermission(Domain.Security.PermissionCodes.PermissionsManage);
+        if (!_authorizationService.HasPermission(PermissionCodes.PermissionsManage))
+            throw new UnauthorizedAccessException("Permission denied: PermissionsManage");
 
         await using var context = DatabaseBootstrap.CreateContext();
 

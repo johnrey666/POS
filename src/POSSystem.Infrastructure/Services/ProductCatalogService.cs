@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using POSSystem.Domain.Models;
 using POSSystem.Domain.Services;
 using POSSystem.Infrastructure.Data;
-using POSSystem.Domain.Models;
 
 namespace POSSystem.Infrastructure.Services;
 
@@ -49,16 +49,10 @@ public sealed class ProductCatalogService : IProductCatalogService
             .Select(p => new ProductSummary
             {
                 Id = p.Id,
-                Sku = p.Sku,
-                Barcode = p.Barcode,
                 Name = p.Name,
-                CategoryId = p.CategoryId,
-                CategoryName = p.Category.Name,
-                CostPrice = p.CostPrice,
+                Barcode = p.Barcode,
                 SellingPrice = p.SellingPrice,
-                StockQuantity = p.StockQuantity,
-                IsActive = p.IsActive,
-                ImagePath = p.ImagePath
+                CategoryId = p.CategoryId
             })
             .ToListAsync(cancellationToken);
     }

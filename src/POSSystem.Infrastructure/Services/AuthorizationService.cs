@@ -1,5 +1,5 @@
-using POSSystem.Domain.Services;
 using POSSystem.Domain.Models;
+using POSSystem.Domain.Services;
 
 namespace POSSystem.Infrastructure.Services;
 
@@ -15,17 +15,11 @@ public sealed class AuthorizationService : IAuthorizationService
     public bool HasPermission(string permissionCode)
     {
         var user = _authService.CurrentUser;
-        return user?.HasPermission(permissionCode) ?? false;
+        return user?.Permissions.Contains(permissionCode) ?? false;
     }
 
-    public void EnsurePermission(string permissionCode)
-    {
-        if (!HasPermission(permissionCode))
-            throw new UnauthorizedAccessException($"Permission denied: {permissionCode}");
-    }
     public bool IsInRole(string roleName)
-{
-    // Simple implementation – adjust if you have a different way to get the current user
-    return AppServices.Auth.CurrentUser?.RoleName == roleName;
-}
+    {
+        return _authService.CurrentUser?.RoleName == roleName;
+    }
 }

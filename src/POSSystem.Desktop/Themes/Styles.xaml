@@ -418,7 +418,9 @@
                                       BorderBrush="{TemplateBinding BorderBrush}"
                                       BorderThickness="{TemplateBinding BorderThickness}"
                                       HorizontalContentAlignment="Stretch"
-                                      VerticalContentAlignment="Stretch">
+                                      VerticalContentAlignment="Stretch"
+                                      ClickMode="Press"
+                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                             <ToggleButton.Template>
                                 <ControlTemplate TargetType="ToggleButton">
                                     <Border Background="{TemplateBinding Background}"
@@ -432,7 +434,8 @@
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
                                             <ContentPresenter Grid.Column="0"
-                                                              Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"/>
+                                                              Content="{Binding SelectionBoxItem, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                                              VerticalAlignment="Center"/>
                                             <TextBlock Grid.Column="1"
                                                        Text="▼"
                                                        FontSize="10"
@@ -443,12 +446,11 @@
                                     </Border>
                                 </ControlTemplate>
                             </ToggleButton.Template>
-                            <ContentPresenter/>
                         </ToggleButton>
                         <Popup x:Name="Popup"
                                Placement="Bottom"
                                AllowsTransparency="True"
-                               IsOpen="{Binding IsChecked, ElementName=DropDownToggle}"
+                               IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                Focusable="False">
                             <Border Background="{DynamicResource InputBackgroundBrush}"
                                     BorderBrush="{DynamicResource Gray200Brush}"
@@ -462,6 +464,11 @@
                             </Border>
                         </Popup>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasItems" Value="False">
+                            <Setter TargetName="DropDownToggle" Property="IsEnabled" Value="False"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -488,7 +495,9 @@
                             Background="{TemplateBinding Background}"
                             CornerRadius="{StaticResource RadiusMedium}"
                             Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ContentPresenter Content="{TemplateBinding Content}" 
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

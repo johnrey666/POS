@@ -30,7 +30,7 @@ The application is intended to run without cloud infrastructure or external serv
 - SQLite
 - Entity Framework Core
 - PBKDF2 password hashing
-- Windows Local AppData storage
+- Windows Local AppData storagew
 
 ## Project architecture
 
@@ -139,7 +139,7 @@ The current cashier flow includes:
 
 From the repository root:
 
-```powershell
+```powershell command
 dotnet restore
 dotnet build POSSystem.sln -nologo
 dotnet run --project POSSystem.Desktop.csproj

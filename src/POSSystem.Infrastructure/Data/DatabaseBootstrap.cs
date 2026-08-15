@@ -41,7 +41,9 @@ public static class DatabaseBootstrap
     private static async Task EnsureSchemaAsync(PosDbContext context, CancellationToken cancellationToken)
     {
         var shouldReset = !await UsersTableExistsAsync(context, cancellationToken)
-            || !await HasRequiredColumnsAsync(context, cancellationToken);
+            || !await HasRequiredColumnsAsync(context, cancellationToken)
+            || !await TableExistsAsync(context, "PromoProducts", cancellationToken)
+            || !await TableExistsAsync(context, "ProductBranchPrices", cancellationToken);
 
         if (shouldReset)
         {
@@ -53,11 +55,16 @@ public static class DatabaseBootstrap
 
     private static async Task<bool> UsersTableExistsAsync(PosDbContext context, CancellationToken cancellationToken)
     {
+        return await TableExistsAsync(context, "Users", cancellationToken);
+    }
+
+    private static async Task<bool> TableExistsAsync(PosDbContext context, string tableName, CancellationToken cancellationToken)
+    {
         try
         {
             await context.Database.OpenConnectionAsync(cancellationToken);
             await using var command = context.Database.GetDbConnection().CreateCommand();
-            command.CommandText = "SELECT 1 FROM sqlite_master WHERE type='table' AND name='Users' LIMIT 1;";
+            command.CommandText = $"SELECT 1 FROM sqlite_master WHERE type='table' AND name='{tableName}' LIMIT 1;";
             var result = await command.ExecuteScalarAsync(cancellationToken);
             return result is not null;
         }

@@ -323,7 +323,7 @@
         <Setter Property="FontFamily" Value="{StaticResource AppFont}"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Padding" Value="12,10"/>
-        <Setter Property="Background" Value="White"/>
+        <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource Gray900Brush}"/>
         <Setter Property="CaretBrush" Value="{DynamicResource PrimaryBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource Gray200Brush}"/>
@@ -351,9 +351,6 @@
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Gray300Brush}"/>
-                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -364,7 +361,7 @@
         <Setter Property="FontFamily" Value="{StaticResource AppFont}"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Padding" Value="12,10 36,10"/>
-        <Setter Property="Background" Value="{DynamicResource Gray50Brush}"/>
+        <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource Gray900Brush}"/>
         <Setter Property="CaretBrush" Value="{DynamicResource PrimaryBrush}"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
@@ -384,7 +381,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="White"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource InputBackgroundBrush}"/>
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
                             <Setter TargetName="border" Property="BorderThickness" Value="2"/>
                             <Setter TargetName="border" Property="Effect">
@@ -407,7 +404,7 @@
         <Setter Property="FontFamily" Value="{StaticResource AppFont}"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Foreground" Value="{DynamicResource Gray900Brush}"/>
-        <Setter Property="Background" Value="White"/>
+        <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource Gray200Brush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="12,0"/>
@@ -453,7 +450,7 @@
                                AllowsTransparency="True"
                                IsOpen="{Binding IsChecked, ElementName=DropDownToggle}"
                                Focusable="False">
-                            <Border Background="White"
+                            <Border Background="{DynamicResource InputBackgroundBrush}"
                                     BorderBrush="{DynamicResource Gray200Brush}"
                                     BorderThickness="1"
                                     CornerRadius="{StaticResource RadiusMedium}"
@@ -465,12 +462,6 @@
                             </Border>
                         </Popup>
                     </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="DropDownToggle" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
-                            <Setter TargetName="DropDownToggle" Property="BorderThickness" Value="2"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

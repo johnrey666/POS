@@ -64,6 +64,7 @@
     <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource Gray50}"/>
     <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource Gray100}"/>
     <SolidColorBrush x:Key="SurfaceAltBrush" Color="{StaticResource Gray50}"/>
+    <SolidColorBrush x:Key="InputBackgroundBrush" Color="{StaticResource Gray100}"/>
     <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource Gray200}"/>
     <SolidColorBrush x:Key="BorderLightBrush" Color="{StaticResource Gray100}"/>
 

@@ -124,6 +124,10 @@
 
                             <!-- Chart -->
                             <Grid Grid.Row="2" Height="220">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/>
@@ -131,101 +135,83 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Border Grid.ColumnSpan="10" BorderThickness="0,1,0,0"
+                                <Border Grid.RowSpan="2" Grid.ColumnSpan="10" BorderThickness="0,1,0,0"
                                         BorderBrush="{DynamicResource Gray200Brush}"
                                         VerticalAlignment="Bottom" Margin="0,0,0,28" Opacity="0.5"/>
 
                                 <!-- Bars -->
-                                <Grid Grid.Column="0" VerticalAlignment="Bottom" Margin="4,0">
+                                <Grid Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" Margin="4,0">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                         <Border Width="12" Height="80" Background="{DynamicResource Gray200Brush}" CornerRadius="0" Margin="0,0,2,0"/>
                                         <Border Width="12" Height="120" Background="{DynamicResource PrimaryBrush}" CornerRadius="0"/>
                                     </StackPanel>
-                                    <TextBlock Text="Espresso" FontSize="10" FontWeight="SemiBold"
-                                               Foreground="{DynamicResource Gray500Brush}"
-                                               VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                 </Grid>
-                                <Grid Grid.Column="1" VerticalAlignment="Bottom" Margin="4,0">
+                                <Grid Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" Margin="4,0">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                         <Border Width="12" Height="70" Background="{DynamicResource Gray200Brush}" CornerRadius="0" Margin="0,0,2,0"/>
                                         <Border Width="12" Height="95" Background="{DynamicResource PrimaryBrush}" CornerRadius="0"/>
                                     </StackPanel>
-                                    <TextBlock Text="Latte" FontSize="10" FontWeight="SemiBold"
-                                               Foreground="{DynamicResource Gray500Brush}"
-                                               VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                 </Grid>
-                                <Grid Grid.Column="2" VerticalAlignment="Bottom" Margin="4,0">
+                                <Grid Grid.Row="0" Grid.Column="2" VerticalAlignment="Bottom" Margin="4,0">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                         <Border Width="12" Height="100" Background="{DynamicResource Gray200Brush}" CornerRadius="0" Margin="0,0,2,0"/>
                                         <Border Width="12" Height="150" Background="{DynamicResource PrimaryBrush}" CornerRadius="0"/>
                                     </StackPanel>
-                                    <TextBlock Text="Americano" FontSize="10" FontWeight="SemiBold"
-                                               Foreground="{DynamicResource Gray500Brush}"
-                                               VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                 </Grid>
-                                <Grid Grid.Column="3" VerticalAlignment="Bottom" Margin="4,0">
+                                <Grid Grid.Row="0" Grid.Column="3" VerticalAlignment="Bottom" Margin="4,0">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                         <Border Width="12" Height="75" Background="{DynamicResource Gray200Brush}" CornerRadius="0" Margin="0,0,2,0"/>
                                         <Border Width="12" Height="65" Background="{DynamicResource PrimaryBrush}" CornerRadius="0"/>
                                     </StackPanel>
-                                    <TextBlock Text="Cappuccino" FontSize="10" FontWeight="SemiBold"
-                                               Foreground="{DynamicResource Gray500Brush}"
-                                               VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                 </Grid>
-                                <Grid Grid.Column="4" VerticalAlignment="Bottom" Margin="4,0">
+                                <Grid Grid.Row="0" Grid.Column="4" VerticalAlignment="Bottom" Margin="4,0">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                         <Border Width="12" Height="60" Background="{DynamicResource Gray200Brush}" CornerRadius="0" Margin="0,0,2,0"/>
                                         <Border Width="12" Height="110" Background="{DynamicResource PrimaryBrush}" CornerRadius="0"/>
                                     </StackPanel>
-                                    <TextBlock Text="Mocha" FontSize="10" FontWeight="SemiBold"
-                                               Foreground="{DynamicResource Gray500Brush}"
-                                               VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                 </Grid>
-                                <Grid Grid.Column="5" VerticalAlignment="Bottom" Margin="4,0">
+                                <Grid Grid.Row="0" Grid.Column="5" VerticalAlignment="Bottom" Margin="4,0">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                         <Border Width="12" Height="55" Background="{DynamicResource Gray200Brush}" CornerRadius="0" Margin="0,0,2,0"/>
                                         <Border Width="12" Height="48" Background="{DynamicResource PrimaryBrush}" CornerRadius="0"/>
                                     </StackPanel>
-                                    <TextBlock Text="Tea" FontSize="10" FontWeight="SemiBold"
-                                               Foreground="{DynamicResource Gray500Brush}"
-                                               VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                 </Grid>
-                                <Grid Grid.Column="6" VerticalAlignment="Bottom" Margin="4,0">
+                                <Grid Grid.Row="0" Grid.Column="6" VerticalAlignment="Bottom" Margin="4,0">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                         <Border Width="12" Height="95" Background="{DynamicResource Gray200Brush}" CornerRadius="0" Margin="0,0,2,0"/>
                                         <Border Width="12" Height="140" Background="{DynamicResource PrimaryBrush}" CornerRadius="0"/>
                                     </StackPanel>
-                                    <TextBlock Text="Pastry" FontSize="10" FontWeight="SemiBold"
-                                               Foreground="{DynamicResource Gray500Brush}"
-                                               VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                 </Grid>
-                                <Grid Grid.Column="7" VerticalAlignment="Bottom" Margin="4,0">
+                                <Grid Grid.Row="0" Grid.Column="7" VerticalAlignment="Bottom" Margin="4,0">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                         <Border Width="12" Height="65" Background="{DynamicResource Gray200Brush}" CornerRadius="0" Margin="0,0,2,0"/>
                                         <Border Width="12" Height="85" Background="{DynamicResource PrimaryBrush}" CornerRadius="0"/>
                                     </StackPanel>
-                                    <TextBlock Text="Sandwich" FontSize="10" FontWeight="SemiBold"
-                                               Foreground="{DynamicResource Gray500Brush}"
-                                               VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                 </Grid>
-                                <Grid Grid.Column="8" VerticalAlignment="Bottom" Margin="4,0">
+                                <Grid Grid.Row="0" Grid.Column="8" VerticalAlignment="Bottom" Margin="4,0">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                         <Border Width="12" Height="40" Background="{DynamicResource Gray200Brush}" CornerRadius="0" Margin="0,0,2,0"/>
                                         <Border Width="12" Height="45" Background="{DynamicResource PrimaryBrush}" CornerRadius="0"/>
                                     </StackPanel>
-                                    <TextBlock Text="Juice" FontSize="10" FontWeight="SemiBold"
-                                               Foreground="{DynamicResource Gray500Brush}"
-                                               VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                 </Grid>
-                                <Grid Grid.Column="9" VerticalAlignment="Bottom" Margin="4,0">
+                                <Grid Grid.Row="0" Grid.Column="9" VerticalAlignment="Bottom" Margin="4,0">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                         <Border Width="12" Height="35" Background="{DynamicResource Gray200Brush}" CornerRadius="0" Margin="0,0,2,0"/>
                                         <Border Width="12" Height="30" Background="{DynamicResource PrimaryBrush}" CornerRadius="0"/>
                                     </StackPanel>
-                                    <TextBlock Text="Water" FontSize="10" FontWeight="SemiBold"
-                                               Foreground="{DynamicResource Gray500Brush}"
-                                               VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                 </Grid>
+
+                                <!-- Labels -->
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Espresso" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource Gray500Brush}" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="Latte" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource Gray500Brush}" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                                <TextBlock Grid.Row="1" Grid.Column="2" Text="Americano" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource Gray500Brush}" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                                <TextBlock Grid.Row="1" Grid.Column="3" Text="Cappuccino" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource Gray500Brush}" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                                <TextBlock Grid.Row="1" Grid.Column="4" Text="Mocha" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource Gray500Brush}" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                                <TextBlock Grid.Row="1" Grid.Column="5" Text="Tea" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource Gray500Brush}" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                                <TextBlock Grid.Row="1" Grid.Column="6" Text="Pastry" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource Gray500Brush}" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                                <TextBlock Grid.Row="1" Grid.Column="7" Text="Sandwich" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource Gray500Brush}" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                                <TextBlock Grid.Row="1" Grid.Column="8" Text="Juice" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource Gray500Brush}" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                                <TextBlock Grid.Row="1" Grid.Column="9" Text="Water" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource Gray500Brush}" HorizontalAlignment="Center" Margin="0,4,0,0"/>
                             </Grid>
                         </Grid>
                     </Border>

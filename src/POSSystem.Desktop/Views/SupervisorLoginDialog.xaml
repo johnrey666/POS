@@ -74,12 +74,12 @@
                            FontWeight="SemiBold"
                            Foreground="{DynamicResource Gray700Brush}"
                            Margin="0,0,0,6"/>
-                <PasswordBox x:Name="PasswordBox"
-                             Height="44"
-                             Padding="12,0"
-                             VerticalContentAlignment="Center"
-                             Style="{StaticResource InputField}"
-                             FontSize="14"/>
+                 <PasswordBox x:Name="PasswordBox"
+                              Height="44"
+                              Padding="12,0"
+                              VerticalContentAlignment="Center"
+                              Style="{StaticResource InputFieldPassword}"
+                              FontSize="14"/>
             </StackPanel>
 
             <!-- Error -->

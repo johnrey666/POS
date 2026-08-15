@@ -527,7 +527,7 @@
                                                Foreground="#2196F3" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0"/>
                                     <StackPanel>
                                         <TextBlock Text="Shift ending soon" FontSize="12" FontWeight="SemiBold"/>
-                                        <TextBlock Text="Cashier Juan – 25 mins left" FontSize="11"
+                                        <TextBlock Text="Cashier Juan –- 25 mins left" FontSize="11"
                                                    Foreground="{DynamicResource TextSecondaryBrush}"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -567,3 +567,4 @@
         </Grid>
     </ScrollViewer>
 </UserControl>
+<!--try commit-->

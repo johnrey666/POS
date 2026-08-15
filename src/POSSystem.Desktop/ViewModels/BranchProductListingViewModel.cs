@@ -13,6 +13,10 @@ public class BranchProductListingViewModel : ViewModelBase
     private string _errorMessage = string.Empty;
     private bool _isBusy;
     private BranchSummary? _selectedBranch;
+    private int _currentPage = 1;
+    private int _totalPages;
+    private int _totalItems;
+    private readonly List<BranchProductListingItem> _allItems = [];
 
     public BranchProductListingViewModel()
     {
@@ -22,6 +26,8 @@ public class BranchProductListingViewModel : ViewModelBase
         LoadCommand = new RelayCommand(async () => await LoadAsync());
         AddProductCommand = new RelayCommand(OpenAddProduct);
         SavePriceCommand = new RelayCommand(async () => await SavePricesAsync());
+        PreviousPageCommand = new RelayCommand(() => ChangePage(-1), () => CurrentPage > 1);
+        NextPageCommand = new RelayCommand(() => ChangePage(1), () => CurrentPage < TotalPages);
 
         try
         {
@@ -44,6 +50,24 @@ public class BranchProductListingViewModel : ViewModelBase
             if (SetProperty(ref _selectedBranch, value))
                 _ = LoadBranchListingsAsync();
         }
+    }
+
+    public int CurrentPage
+    {
+        get => _currentPage;
+        set => SetProperty(ref _currentPage, value);
+    }
+
+    public int TotalPages
+    {
+        get => _totalPages;
+        set => SetProperty(ref _totalPages, value);
+    }
+
+    public int TotalItems
+    {
+        get => _totalItems;
+        set => SetProperty(ref _totalItems, value);
     }
 
     public string StatusMessage
@@ -71,6 +95,8 @@ public class BranchProductListingViewModel : ViewModelBase
     public ICommand LoadCommand { get; }
     public ICommand AddProductCommand { get; }
     public ICommand SavePriceCommand { get; }
+    public ICommand PreviousPageCommand { get; }
+    public ICommand NextPageCommand { get; }
 
     private async Task LoadAsync()
     {
@@ -100,6 +126,10 @@ public class BranchProductListingViewModel : ViewModelBase
     {
         if (SelectedBranch == null)
         {
+            _allItems.Clear();
+            TotalItems = 0;
+            CurrentPage = 1;
+            TotalPages = 0;
             BranchProductListings.Clear();
             return;
         }
@@ -110,11 +140,12 @@ public class BranchProductListingViewModel : ViewModelBase
         try
         {
             var items = await AppServices.ProductManagement.GetBranchProductListingsAsync(SelectedBranch.Id);
-            BranchProductListings.Clear();
-            foreach (var item in items)
-                BranchProductListings.Add(item);
-
-            StatusMessage = $"Loaded {BranchProductListings.Count} products for {SelectedBranch.Name}.";
+            _allItems.Clear();
+            _allItems.AddRange(items);
+            TotalItems = _allItems.Count;
+            CurrentPage = 1;
+            ApplyPaging();
+            StatusMessage = $"Loaded {TotalItems} products for {SelectedBranch.Name}.";
             ErrorMessage = string.Empty;
         }
         catch (Exception ex)
@@ -125,6 +156,31 @@ public class BranchProductListingViewModel : ViewModelBase
         {
             IsBusy = false;
         }
+    }
+
+    private void ApplyPaging()
+    {
+        const int pageSize = 15;
+        TotalPages = (int)Math.Ceiling((double)TotalItems / pageSize);
+        if (CurrentPage > TotalPages) CurrentPage = TotalPages;
+        if (CurrentPage < 1) CurrentPage = 1;
+
+        var pageItems = _allItems
+            .Skip((CurrentPage - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        BranchProductListings.Clear();
+        foreach (var item in pageItems)
+            BranchProductListings.Add(item);
+
+        CommandManager.InvalidateRequerySuggested();
+    }
+
+    private void ChangePage(int delta)
+    {
+        CurrentPage += delta;
+        ApplyPaging();
     }
 
     private async void OpenAddProduct()

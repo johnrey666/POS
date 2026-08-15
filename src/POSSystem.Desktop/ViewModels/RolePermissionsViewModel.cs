@@ -11,6 +11,10 @@ public class RolePermissionsViewModel : ViewModelBase
     private string? _statusMessage;
     private string? _errorMessage;
     private bool _isBusy;
+    private int _currentPage = 1;
+    private int _totalPages;
+    private int _totalItems;
+    private readonly List<PermissionRowViewModel> _allItems = [];
 
     public RolePermissionsViewModel()
     {
@@ -18,6 +22,8 @@ public class RolePermissionsViewModel : ViewModelBase
         Permissions = [];
         SaveCommand = new RelayCommand(async () => await SaveAsync(), CanSave);
         LoadCommand = new RelayCommand(async () => await LoadRolesAsync());
+        PreviousPageCommand = new RelayCommand(() => ChangePage(-1), () => CurrentPage > 1);
+        NextPageCommand = new RelayCommand(() => ChangePage(1), () => CurrentPage < TotalPages);
 
         try
         {
@@ -40,6 +46,24 @@ public class RolePermissionsViewModel : ViewModelBase
             if (SetProperty(ref _selectedRole, value))
                 _ = LoadPermissionsForRoleAsync();
         }
+    }
+
+    public int CurrentPage
+    {
+        get => _currentPage;
+        set => SetProperty(ref _currentPage, value);
+    }
+
+    public int TotalPages
+    {
+        get => _totalPages;
+        set => SetProperty(ref _totalPages, value);
+    }
+
+    public int TotalItems
+    {
+        get => _totalItems;
+        set => SetProperty(ref _totalItems, value);
     }
 
     public string? StatusMessage
@@ -66,6 +90,8 @@ public class RolePermissionsViewModel : ViewModelBase
 
     public RelayCommand SaveCommand { get; }
     public RelayCommand LoadCommand { get; }
+    public ICommand PreviousPageCommand { get; }
+    public ICommand NextPageCommand { get; }
 
     private bool CanSave() => !IsBusy && SelectedRole is not null && Permissions.Count > 0;
 
@@ -103,6 +129,10 @@ public class RolePermissionsViewModel : ViewModelBase
     {
         if (SelectedRole is null)
         {
+            _allItems.Clear();
+            TotalItems = 0;
+            CurrentPage = 1;
+            TotalPages = 0;
             Permissions.Clear();
             return;
         }
@@ -114,9 +144,13 @@ public class RolePermissionsViewModel : ViewModelBase
         try
         {
             var items = await AppServices.PermissionAdmin.GetRolePermissionsAsync(SelectedRole.Id);
-            Permissions.Clear();
+            _allItems.Clear();
             foreach (var item in items)
-                Permissions.Add(new PermissionRowViewModel(item));
+                _allItems.Add(new PermissionRowViewModel(item));
+
+            TotalItems = _allItems.Count;
+            CurrentPage = 1;
+            ApplyPaging();
         }
         catch (UnauthorizedAccessException ex)
         {
@@ -131,6 +165,31 @@ public class RolePermissionsViewModel : ViewModelBase
             IsBusy = false;
             CommandManager.InvalidateRequerySuggested();
         }
+    }
+
+    private void ApplyPaging()
+    {
+        const int pageSize = 15;
+        TotalPages = (int)Math.Ceiling((double)TotalItems / pageSize);
+        if (CurrentPage > TotalPages) CurrentPage = TotalPages;
+        if (CurrentPage < 1) CurrentPage = 1;
+
+        var pageItems = _allItems
+            .Skip((CurrentPage - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        Permissions.Clear();
+        foreach (var item in pageItems)
+            Permissions.Add(item);
+
+        CommandManager.InvalidateRequerySuggested();
+    }
+
+    private void ChangePage(int delta)
+    {
+        CurrentPage += delta;
+        ApplyPaging();
     }
 
     private async Task SaveAsync()

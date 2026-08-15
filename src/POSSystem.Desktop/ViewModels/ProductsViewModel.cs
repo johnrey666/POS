@@ -10,6 +10,10 @@ public class ProductsViewModel : ViewModelBase
     private string _statusMessage = string.Empty;
     private bool _isBusy;
     private ProductManagementItem? _selectedProduct;
+    private int _currentPage = 1;
+    private int _totalPages;
+    private int _totalItems;
+    private readonly List<ProductManagementItem> _allItems = [];
 
     public ProductsViewModel()
     {
@@ -22,6 +26,8 @@ public class ProductsViewModel : ViewModelBase
             if (obj is ProductManagementItem product)
                 OpenViewProduct(product);
         });
+        PreviousPageCommand = new RelayCommand(() => ChangePage(-1), () => CurrentPage > 1);
+        NextPageCommand = new RelayCommand(() => ChangePage(1), () => CurrentPage < TotalPages);
 
         try
         {
@@ -39,6 +45,24 @@ public class ProductsViewModel : ViewModelBase
     {
         get => _selectedProduct;
         set => SetProperty(ref _selectedProduct, value);
+    }
+
+    public int CurrentPage
+    {
+        get => _currentPage;
+        set => SetProperty(ref _currentPage, value);
+    }
+
+    public int TotalPages
+    {
+        get => _totalPages;
+        set => SetProperty(ref _totalPages, value);
+    }
+
+    public int TotalItems
+    {
+        get => _totalItems;
+        set => SetProperty(ref _totalItems, value);
     }
 
     public string StatusMessage
@@ -60,6 +84,8 @@ public class ProductsViewModel : ViewModelBase
     public ICommand LoadCommand { get; }
     public ICommand NewProductCommand { get; }
     public ICommand ViewProductCommand { get; }
+    public ICommand PreviousPageCommand { get; }
+    public ICommand NextPageCommand { get; }
 
     private async Task LoadAsync()
     {
@@ -69,11 +95,12 @@ public class ProductsViewModel : ViewModelBase
         try
         {
             var items = await AppServices.ProductManagement.GetProductsAsync();
-            Products.Clear();
-            foreach (var item in items)
-                Products.Add(item);
-
-            StatusMessage = $"Loaded {Products.Count} products.";
+            _allItems.Clear();
+            _allItems.AddRange(items);
+            TotalItems = _allItems.Count;
+            CurrentPage = 1;
+            ApplyPaging();
+            StatusMessage = $"Loaded {TotalItems} products.";
         }
         catch (Exception ex)
         {
@@ -83,6 +110,31 @@ public class ProductsViewModel : ViewModelBase
         {
             IsBusy = false;
         }
+    }
+
+    private void ApplyPaging()
+    {
+        const int pageSize = 15;
+        TotalPages = (int)Math.Ceiling((double)TotalItems / pageSize);
+        if (CurrentPage > TotalPages) CurrentPage = TotalPages;
+        if (CurrentPage < 1) CurrentPage = 1;
+
+        var pageItems = _allItems
+            .Skip((CurrentPage - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        Products.Clear();
+        foreach (var item in pageItems)
+            Products.Add(item);
+
+        CommandManager.InvalidateRequerySuggested();
+    }
+
+    private void ChangePage(int delta)
+    {
+        CurrentPage += delta;
+        ApplyPaging();
     }
 
  private void OpenNewProduct()

@@ -13,6 +13,10 @@ public class PromoProductsViewModel : ViewModelBase
     private PromoProductItem? _selectedPromoProduct;
     private DateTime _promoStartDate = DateTime.Today;
     private DateTime _promoEndDate = DateTime.Today.AddMonths(1);
+    private int _currentPage = 1;
+    private int _totalPages;
+    private int _totalItems;
+    private readonly List<PromoProductItem> _allItems = [];
 
     public PromoProductsViewModel()
     {
@@ -30,6 +34,8 @@ public class PromoProductsViewModel : ViewModelBase
             if (obj is PromoProductItem item)
                 DeletePromo(item);
         });
+        PreviousPageCommand = new RelayCommand(() => ChangePage(-1), () => CurrentPage > 1);
+        NextPageCommand = new RelayCommand(() => ChangePage(1), () => CurrentPage < TotalPages);
 
         try
         {
@@ -47,6 +53,24 @@ public class PromoProductsViewModel : ViewModelBase
     {
         get => _selectedPromoProduct;
         set => SetProperty(ref _selectedPromoProduct, value);
+    }
+
+    public int CurrentPage
+    {
+        get => _currentPage;
+        set => SetProperty(ref _currentPage, value);
+    }
+
+    public int TotalPages
+    {
+        get => _totalPages;
+        set => SetProperty(ref _totalPages, value);
+    }
+
+    public int TotalItems
+    {
+        get => _totalItems;
+        set => SetProperty(ref _totalItems, value);
     }
 
     public DateTime PromoStartDate
@@ -81,6 +105,8 @@ public class PromoProductsViewModel : ViewModelBase
     public ICommand NewPromoCommand { get; }
     public ICommand EditPromoCommand { get; }
     public ICommand DeletePromoCommand { get; }
+    public ICommand PreviousPageCommand { get; }
+    public ICommand NextPageCommand { get; }
 
     private async Task LoadAsync()
     {
@@ -90,11 +116,12 @@ public class PromoProductsViewModel : ViewModelBase
         try
         {
             var items = await AppServices.ProductManagement.GetPromoProductsAsync();
-            PromoProducts.Clear();
-            foreach (var item in items)
-                PromoProducts.Add(item);
-
-            StatusMessage = $"Loaded {PromoProducts.Count} promotional products.";
+            _allItems.Clear();
+            _allItems.AddRange(items);
+            TotalItems = _allItems.Count;
+            CurrentPage = 1;
+            ApplyPaging();
+            StatusMessage = $"Loaded {TotalItems} promotional products.";
         }
         catch (Exception ex)
         {
@@ -104,6 +131,31 @@ public class PromoProductsViewModel : ViewModelBase
         {
             IsBusy = false;
         }
+    }
+
+    private void ApplyPaging()
+    {
+        const int pageSize = 15;
+        TotalPages = (int)Math.Ceiling((double)TotalItems / pageSize);
+        if (CurrentPage > TotalPages) CurrentPage = TotalPages;
+        if (CurrentPage < 1) CurrentPage = 1;
+
+        var pageItems = _allItems
+            .Skip((CurrentPage - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        PromoProducts.Clear();
+        foreach (var item in pageItems)
+            PromoProducts.Add(item);
+
+        CommandManager.InvalidateRequerySuggested();
+    }
+
+    private void ChangePage(int delta)
+    {
+        CurrentPage += delta;
+        ApplyPaging();
     }
 
     private async void OpenNewPromo()

@@ -91,13 +91,13 @@
                     <ItemsControl ItemsSource="{Binding Products}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <WrapPanel/>
+                                <UniformGrid Columns="4"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Width="160" Height="120" Margin="8"
-                                        Style="{StaticResource CardInteractive}" Padding="16">
+                                <Border Width="180" Height="200" Margin="6"
+                                        Style="{StaticResource CardInteractive}" Padding="0">
                                     <Button Command="{Binding DataContext.AddProductCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding}"
                                             Background="Transparent" BorderThickness="0" Padding="0" Cursor="Hand"
@@ -109,20 +109,25 @@
                                         </Button.Template>
                                         <Grid>
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="110"/>
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="13"
-                                                           TextWrapping="Wrap" Foreground="{DynamicResource Gray900Brush}"
-                                                           TextTrimming="CharacterEllipsis"/>
-                                                <TextBlock Text="{Binding CategoryName}"
-                                                           Foreground="{DynamicResource Gray500Brush}"
-                                                           Margin="0,4,0,0" FontSize="11"/>
-                                            </StackPanel>
-                                            <TextBlock Grid.Row="1" Text="{Binding SellingPrice, StringFormat=₱{0:N2}}"
-                                                       FontWeight="Bold" FontSize="12"
-                                                       Foreground="{DynamicResource PrimaryBrush}" Margin="0,4,0,0"/>
+                                            <Border Grid.Row="0" Background="{DynamicResource PrimaryLightBrush}">
+                                                <TextBlock Text="🍔" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <Border Grid.Row="1" Padding="12,10" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="12"
+                                                               TextWrapping="Wrap" Foreground="{DynamicResource Gray900Brush}"
+                                                               TextTrimming="CharacterEllipsis" MaxHeight="32"/>
+                                                    <TextBlock Text="{Binding CategoryName}"
+                                                               Foreground="{DynamicResource Gray500Brush}"
+                                                               Margin="0,2,0,0" FontSize="10"/>
+                                                    <TextBlock Text="{Binding SellingPrice, StringFormat=₱{0:N2}}"
+                                                               FontWeight="Bold" FontSize="13"
+                                                               Foreground="{DynamicResource PrimaryBrush}" Margin="0,4,0,0"/>
+                                                </StackPanel>
+                                            </Border>
                                         </Grid>
                                     </Button>
                                 </Border>

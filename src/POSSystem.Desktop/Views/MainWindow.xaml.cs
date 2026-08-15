@@ -17,25 +17,21 @@ public partial class MainWindow : Window
 
     private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-        // Unsubscribe from old ViewModel if exists
         if (_viewModel != null)
         {
             _viewModel.PropertyChanged -= OnViewModelPropertyChanged;
         }
 
-        // Set new ViewModel and subscribe to changes
         _viewModel = DataContext as ShellViewModel;
         if (_viewModel != null)
         {
             _viewModel.PropertyChanged += OnViewModelPropertyChanged;
-            // Force highlight update immediately on startup
             UpdateNavStyles(_viewModel.CurrentPage);
         }
     }
 
     private void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        // Only react when the CurrentPage changes
         if (e.PropertyName == nameof(ShellViewModel.CurrentPage) && _viewModel != null)
         {
             UpdateNavStyles(_viewModel.CurrentPage);
@@ -44,18 +40,19 @@ public partial class MainWindow : Window
 
     private void UpdateNavStyles(string currentPage)
     {
-        if (NavLinksStackPanel == null) return;
+        var header = FindName("HeaderNavPanel") as StackPanel;
+        if (header == null) return;
 
-        // Loop through every button in the center navigation panel
-        foreach (UIElement child in NavLinksStackPanel.Children)
+        foreach (UIElement child in header.Children)
         {
-            if (child is Button btn)
+            if (child is Button btn && btn.Tag is string page)
             {
-                var page = btn.Tag as string;
                 var isActive = string.Equals(currentPage, page, StringComparison.OrdinalIgnoreCase);
                 
-                // Apply the correct style
-                btn.Style = (Style)FindResource(isActive ? "TopNavLinkActive" : "TopNavLink");
+                if (isActive)
+                    btn.Style = (Style)FindResource("HeaderNavButtonActive");
+                else
+                    btn.Style = (Style)FindResource("HeaderNavButton");
             }
         }
     }

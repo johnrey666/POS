@@ -2,96 +2,96 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Supervisor Access"
-        Height="340"
-        Width="420"
+        Height="400"
+        Width="480"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         WindowStyle="None"
         Background="White"
-        ShowInTaskbar="False">
+        ShowInTaskbar="False"
+        Effect="{StaticResource ShadowLarge}">
 
-    <Border Background="White"
-            BorderBrush="#E0E0E0"
+    <Border Background="{DynamicResource SurfaceBrush}"
+            BorderBrush="{DynamicResource BorderBrush}"
             BorderThickness="1"
-            CornerRadius="12"
-            Padding="28">
+            CornerRadius="0"
+            Padding="32">
 
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="22"/>
+                <RowDefinition Height="24"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="14"/>
+                <RowDefinition Height="12"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="10"/>
+                <RowDefinition Height="8"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="16"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <!-- Header -->
             <StackPanel Grid.Row="0">
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                    <TextBlock Text="&#xE72E;" 
-                               FontFamily="{StaticResource IconFont}" 
-                               FontSize="18" 
-                               Foreground="{DynamicResource AccentBrush}"
-                               VerticalAlignment="Center"
-                               Margin="0,0,8,0"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                    <Border Width="32" Height="32" CornerRadius="0" Background="{DynamicResource PrimaryLightBrush}">
+                        <TextBlock Text="🔐" FontSize="16" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
                     <TextBlock Text="Supervisor Approval"
                                FontSize="18"
-                               FontWeight="Bold"
-                               Foreground="#1A1A1A"
-                               VerticalAlignment="Center"/>
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource Gray900Brush}"
+                               VerticalAlignment="Center"
+                               Margin="10,0,0,0"/>
                 </StackPanel>
 
                 <TextBlock x:Name="ActionText"
                            Text="Please enter supervisor credentials to continue"
                            FontSize="13"
-                           Foreground="#666666"
+                           Foreground="{DynamicResource Gray500Brush}"
                            TextWrapping="Wrap"/>
             </StackPanel>
 
             <!-- Username -->
             <StackPanel Grid.Row="2">
                 <TextBlock Text="Username"
-                           FontSize="12"
+                           FontSize="13"
                            FontWeight="SemiBold"
-                           Foreground="#555555"
+                           Foreground="{DynamicResource Gray700Brush}"
                            Margin="0,0,0,6"/>
                 <TextBox x:Name="UsernameBox"
-                         Height="40"
+                         Height="44"
                          Padding="12,0"
                          VerticalContentAlignment="Center"
-                         Style="{StaticResource InputTextBox}"
+                         Style="{StaticResource InputField}"
                          FontSize="14"/>
             </StackPanel>
 
             <!-- Password -->
             <StackPanel Grid.Row="4">
                 <TextBlock Text="Password"
-                           FontSize="12"
+                           FontSize="13"
                            FontWeight="SemiBold"
-                           Foreground="#555555"
+                           Foreground="{DynamicResource Gray700Brush}"
                            Margin="0,0,0,6"/>
                 <PasswordBox x:Name="PasswordBox"
-                             Height="40"
+                             Height="44"
                              Padding="12,0"
                              VerticalContentAlignment="Center"
-                             Style="{StaticResource InputPasswordBox}"
+                             Style="{StaticResource InputField}"
                              FontSize="14"/>
             </StackPanel>
 
             <!-- Error -->
             <TextBlock x:Name="ErrorText"
                        Grid.Row="6"
-                       Foreground="#FF5252"
-                       FontSize="12.5"
+                       Foreground="{DynamicResource DangerBrush}"
+                       FontSize="13"
                        TextWrapping="Wrap"
                        Visibility="Collapsed"/>
 
             <!-- Buttons -->
-            <Grid Grid.Row="8" Margin="0,8,0,0">
+            <Grid Grid.Row="8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="12"/>
@@ -100,14 +100,14 @@
 
                 <Button Grid.Column="0"
                         Content="Cancel"
-                        Height="42"
+                        Height="44"
                         FontSize="14"
                         Click="Cancel_Click"
                         Style="{StaticResource SecondaryButton}"/>
 
                 <Button Grid.Column="2"
                         Content="Approve"
-                        Height="42"
+                        Height="44"
                         FontSize="14"
                         Click="Approve_Click"
                         Style="{StaticResource PrimaryButton}"

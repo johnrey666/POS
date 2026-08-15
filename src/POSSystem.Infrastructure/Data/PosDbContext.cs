@@ -20,6 +20,8 @@ public class PosDbContext : DbContext
     public DbSet<Terminal> Terminals => Set<Terminal>();
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Product> Products => Set<Product>();
+    public DbSet<ProductBranchPrice> ProductBranchPrices => Set<ProductBranchPrice>();
+    public DbSet<PromoProduct> PromoProducts => Set<PromoProduct>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -105,6 +107,33 @@ public class PosDbContext : DbContext
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<ProductBranchPrice>(entity =>
+        {
+            entity.HasKey(pbp => new { pbp.ProductId, pbp.BranchId });
+
+            entity.Property(pbp => pbp.Price).HasColumnType("decimal(18,2)");
+
+            entity.HasOne(pbp => pbp.Product)
+                .WithMany()
+                .HasForeignKey(pbp => pbp.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(pbp => pbp.Branch)
+                .WithMany()
+                .HasForeignKey(pbp => pbp.BranchId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<PromoProduct>(entity =>
+        {
+            entity.HasIndex(pp => new { pp.ProductId, pp.StartDate, pp.EndDate });
+
+            entity.HasOne(pp => pp.Product)
+                .WithMany()
+                .HasForeignKey(pp => pp.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<RolePermission>(entity =>

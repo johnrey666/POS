@@ -1,10 +1,9 @@
-<!--LoginWindow.xaml-->
 <Window x:Class="POSSystem.Desktop.Views.LoginWindow"
         xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Login"
-        Width="880"
+        Width="900"
         Height="540"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
@@ -14,38 +13,27 @@
         MouseDown="Window_MouseDown">
 
     <Window.Resources>
-        <!-- 
-             FIX ADDED HERE: 
-             The global Themes/Styles.xaml has a buggy binding on TextBlock.Foreground.
-             This local style overrides it, giving it a valid default color so it never crashes.
-        -->
-        <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#1C1C1E"/>
-        </Style>
-
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
 
-        <DropShadowEffect x:Key="LocalShadow" BlurRadius="24" ShadowDepth="4" Opacity="0.12" Color="#000000"/>
+        <DropShadowEffect x:Key="LocalShadow" BlurRadius="32" ShadowDepth="6" Opacity="0.12" Color="#000"/>
 
-        <!-- Dark gradient -->
         <LinearGradientBrush x:Key="LocalAccentGradient" StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Color="#0F0C29" Offset="0"/>
-            <GradientStop Color="#302B63" Offset="0.5"/>
-            <GradientStop Color="#24243E" Offset="1"/>
+            <GradientStop Color="#0F172A" Offset="0"/>
+            <GradientStop Color="#1E293B" Offset="0.5"/>
+            <GradientStop Color="#334155" Offset="1"/>
         </LinearGradientBrush>
 
-        <!-- Smaller tiles for dark theme -->
         <Style x:Key="ShapeStyle" TargetType="Border">
-            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="Background" Value="#18FFFFFF"/>
             <Setter Property="Margin" Value="3"/>
         </Style>
     </Window.Resources>
 
-    <Border Margin="16"
-            CornerRadius="20"
+    <Border Margin="14"
+            CornerRadius="0"
             Background="White"
-            BorderBrush="#E5E5EA"
+            BorderBrush="{DynamicResource BorderBrush}"
             BorderThickness="1"
             Effect="{StaticResource LocalShadow}">
 
@@ -60,7 +48,7 @@
                     Content="✕"
                     Background="Transparent"
                     BorderThickness="0"
-                    Foreground="#8E8E93"
+                    Foreground="{DynamicResource Gray500Brush}"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
                     Margin="0,14,18,0"
@@ -72,13 +60,13 @@
 
             <!-- ========== LEFT PANEL ========== -->
             <Border Grid.Column="0"
-                    CornerRadius="20,0,0,20"
+                    CornerRadius="0"
                     Background="{StaticResource LocalAccentGradient}"
                     ClipToBounds="True">
 
                 <Grid>
-                    <!-- ===== SMALLER SHAPE GRID ===== -->
-                    <UniformGrid Rows="12" Columns="7" Opacity="0.65">
+                    <!-- Shape Grid -->
+                    <UniformGrid Rows="12" Columns="7" Opacity="0.5">
                         <Border Style="{StaticResource ShapeStyle}" Opacity="0.45"/>
                         <Border Style="{StaticResource ShapeStyle}" Opacity="0.25"/>
                         <Border Style="{StaticResource ShapeStyle}" Opacity="0.55"/>
@@ -176,10 +164,9 @@
                         <Border Style="{StaticResource ShapeStyle}" Opacity="0.15"/>
                     </UniformGrid>
 
-                    <!-- Soft dark overlay -->
                     <Border Background="#66000000"/>
 
-                    <!-- ===== CONTENT ===== -->
+                    <!-- Content -->
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -191,7 +178,7 @@
                         <Image Grid.Row="0"
                                Source="pack://application:,,,/POSSystem.Desktop;component/Assets/title.png"
                                Stretch="Uniform"
-                               MaxHeight="100"
+                               MaxHeight="90"
                                HorizontalAlignment="Center"
                                Margin="24,28,24,8"/>
 
@@ -200,8 +187,8 @@
                                gif:AnimationBehavior.SourceUri="pack://application:,,,/POSSystem.Desktop;component/Assets/pos_machine.gif"
                                gif:AnimationBehavior.AutoStart="True"
                                Stretch="Uniform"
-                               MaxWidth="275"
-                               MaxHeight="275"
+                               MaxWidth="250"
+                               MaxHeight="250"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Margin="20,10,20,10"
@@ -210,11 +197,11 @@
                                UseLayoutRounding="True"/>
 
                         <!-- Footer -->
-                        <StackPanel Grid.Row="2" Margin="0,0,0,26">
+                        <StackPanel Grid.Row="2" Margin="0,0,0,24">
                             <Border Height="1" Background="#40FFFFFF" Margin="40,0,40,14"/>
                             <TextBlock Text="Fast  •  Secure  •  Multi-branch"
-                                       FontSize="12.5"
-                                       Foreground="#D0D0FF"
+                                       FontSize="12"
+                                       Foreground="#CBD5E1"
                                        HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Grid>
@@ -222,125 +209,126 @@
             </Border>
 
             <!-- ========== RIGHT FORM ========== -->
-            <Grid Grid.Column="1" Background="#F9F9FB">
-                <Grid>
-                    <StackPanel VerticalAlignment="Center" Margin="48,0">
+            <Grid Grid.Column="1" Background="{DynamicResource SurfaceSecondaryBrush}">
+                <StackPanel VerticalAlignment="Center" Margin="52,0">
 
-                        <TextBlock Text="Welcome back"
-                                   FontSize="26"
-                                   FontWeight="Bold"
-                                   Foreground="#1C1C1E"
-                                   Margin="0,0,0,4"/>
+                    <TextBlock Text="Welcome back"
+                               FontSize="26"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
+                               Margin="0,0,0,4"/>
 
-                        <TextBlock Text="Sign in to continue to your terminal"
-                                   FontSize="14"
-                                   Foreground="#8E8E93"
-                                   Margin="0,0,0,32"/>
+                    <TextBlock Text="Sign in to continue to your terminal"
+                               FontSize="14"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               Margin="0,0,0,36"/>
 
-                        <!-- Username -->
-                        <TextBlock Text="Username"
-                                   FontSize="13"
-                                   FontWeight="SemiBold"
-                                   Foreground="#3A3A3C"
-                                   Margin="0,0,0,6"/>
+                    <!-- Username -->
+                    <TextBlock Text="Username"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
+                               Margin="0,0,0,8"/>
 
-                        <Border Background="White"
-                                BorderBrush="#E5E5EA"
-                                BorderThickness="1.5"
-                                CornerRadius="12"
-                                Height="48"
-                                Margin="0,0,0,18">
-                            <TextBox x:Name="UserNameTextBox"
-                                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                    <Border Background="{DynamicResource BackgroundWhiteBrush}"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1.5"
+                            CornerRadius="0"
+                            Height="48"
+                            Margin="0,0,0,18"
+                            Effect="{StaticResource SoftShadow}">
+                        <TextBox x:Name="UserNameTextBox"
+                                 Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 Foreground="{DynamicResource TextPrimaryBrush}"
+                                 CaretBrush="{DynamicResource AccentBrush}"
+                                 FontSize="15"
+                                 Padding="14,0"
+                                 VerticalContentAlignment="Center"/>
+                    </Border>
+
+                    <!-- Password -->
+                    <TextBlock Text="Password"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
+                               Margin="0,0,0,8"/>
+
+                    <Border Background="{DynamicResource BackgroundWhiteBrush}"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1.5"
+                            CornerRadius="0"
+                            Height="48"
+                            Margin="0,0,0,12"
+                            Effect="{StaticResource SoftShadow}">
+                        <PasswordBox x:Name="PasswordBox"
+                                     PasswordChanged="PasswordBox_OnPasswordChanged"
                                      Background="Transparent"
                                      BorderThickness="0"
-                                     Foreground="#1C1C1E"
-                                     CaretBrush="#007AFF"
+                                     Foreground="{DynamicResource TextPrimaryBrush}"
+                                     CaretBrush="{DynamicResource AccentBrush}"
                                      FontSize="15"
                                      Padding="14,0"
-                                     VerticalContentAlignment="Center"/>
-                        </Border>
-
-                        <!-- Password -->
-                        <TextBlock Text="Password"
-                                   FontSize="13"
-                                   FontWeight="SemiBold"
-                                   Foreground="#3A3A3C"
-                                   Margin="0,0,0,6"/>
-
-                        <Border Background="White"
-                                BorderBrush="#E5E5EA"
-                                BorderThickness="1.5"
-                                CornerRadius="12"
-                                Height="48"
-                                Margin="0,0,0,12">
-                            <PasswordBox x:Name="PasswordBox"
-                                         PasswordChanged="PasswordBox_OnPasswordChanged"
-                                         Background="Transparent"
-                                         BorderThickness="0"
-                                         Foreground="#1C1C1E"
-                                         CaretBrush="#007AFF"
-                                         FontSize="15"
-                                         Padding="14,0"
-                                         VerticalContentAlignment="Center"
-                                         PasswordChar="●"/>
-                        </Border>
-
-                        <!-- Error message -->
-                        <TextBlock Text="{Binding ErrorMessage}"
-                                   Foreground="#FF3B30"
-                                   FontSize="13"
-                                   HorizontalAlignment="Center"
-                                   TextWrapping="Wrap"
-                                   MaxWidth="320"
-                                   Margin="0,4,0,16"/>
-
-                        <!-- Sign In button -->
-                        <Button Content="Sign In"
-                                Command="{Binding LoginCommand}"
-                                Height="50"
-                                FontSize="15"
-                                FontWeight="SemiBold"
-                                Foreground="White"
-                                BorderThickness="0"
-                                Cursor="Hand">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border x:Name="btnBorder"
-                                            Background="#6366F1"
-                                            CornerRadius="12">
-                                        <Border.Effect>
-                                            <DropShadowEffect BlurRadius="12" ShadowDepth="3" Opacity="0.25" Color="#6366F1"/>
-                                        </Border.Effect>
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="btnBorder" Property="Opacity" Value="0.9"/>
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter TargetName="btnBorder" Property="Opacity" Value="0.45"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
-
-                    <!-- Loading Overlay -->
-                    <Border Background="#99FFFFFF"
-                            CornerRadius="0,20,20,0"
-                            Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}">
-                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Text="⏳" FontSize="36" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Authenticating..."
-                                       FontSize="15"
-                                       Foreground="#1C1C1E"
-                                       FontWeight="SemiBold"
-                                       Margin="0,10,0,0"/>
-                        </StackPanel>
+                                     VerticalContentAlignment="Center"
+                                     PasswordChar="●"/>
                     </Border>
-                </Grid>
+
+                    <!-- Error message -->
+                    <TextBlock Text="{Binding ErrorMessage}"
+                               Foreground="{DynamicResource ErrorBrush}"
+                               FontSize="13"
+                               HorizontalAlignment="Center"
+                               TextWrapping="Wrap"
+                               MaxWidth="320"
+                               Margin="0,4,0,16"/>
+
+                    <!-- Sign In button -->
+                    <Button Content="Sign In"
+                            Command="{Binding LoginCommand}"
+                            Height="50"
+                            FontSize="15"
+                            FontWeight="SemiBold"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Style="{StaticResource PrimaryButton}">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="btnBorder"
+                                        Background="{DynamicResource AccentGradientBrush}"
+                                        CornerRadius="0">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="16" ShadowDepth="4" Opacity="0.25" Color="{DynamicResource AccentStart}"/>
+                                    </Border.Effect>
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="btnBorder" Property="Opacity" Value="0.92"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter TargetName="btnBorder" Property="Opacity" Value="0.45"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+
+                <!-- Loading Overlay -->
+                <Border Background="#99FFFFFF"
+                        CornerRadius="0"
+                        Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="⏳" FontSize="36" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Authenticating..."
+                                   FontSize="15"
+                                   Foreground="{DynamicResource TextPrimaryBrush}"
+                                   FontWeight="SemiBold"
+                                   Margin="0,10,0,0"/>
+                    </StackPanel>
+                </Border>
             </Grid>
         </Grid>
     </Border>

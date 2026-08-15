@@ -8,7 +8,6 @@
                 <ResourceDictionary Source="Themes/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- ADD THIS BELOW: It gives your UI the shadow effect it's asking for -->
             <DropShadowEffect x:Key="ShadowEffect" Color="Black" BlurRadius="10" ShadowDepth="3" Opacity="0.3" Direction="315" />
             
         </ResourceDictionary>

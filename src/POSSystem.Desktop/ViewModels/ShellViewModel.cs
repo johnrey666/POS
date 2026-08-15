@@ -12,6 +12,7 @@ public class ShellViewModel : ViewModelBase
     private object? _currentView;
     private string _currentPage = "dashboard";
     private bool _isDarkMode;
+    private bool _isProductsMenuOpen;
 
     public ShellViewModel()
     {
@@ -29,12 +30,13 @@ public class ShellViewModel : ViewModelBase
         NavigateDashboardCommand = new RelayCommand(() => Navigate("dashboard", new DashboardViewModel()));
         NavigatePosCommand = new RelayCommand(() => Navigate("pos", new PosViewModel()));
         NavigateProductsCommand = new RelayCommand(() => Navigate("products", new ProductsViewModel()));
+        NavigatePromoProductsCommand = new RelayCommand(() => Navigate("promo-products", new PromoProductsViewModel()));
+        NavigateBranchProductListingCommand = new RelayCommand(() => Navigate("branch-products", new BranchProductListingViewModel()));
         NavigatePermissionsCommand = new RelayCommand(() => Navigate("permissions", new RolePermissionsViewModel()));
         LogoutCommand = new RelayCommand(Logout);
         ToggleDarkModeCommand = new RelayCommand(ToggleDarkMode);
 
-        // Load saved theme preference (optional – default to Light)
-        IsDarkMode = false; // or read from settings
+        IsDarkMode = false;
 
         if (CanAccessPos)
             Navigate("pos", new PosViewModel());
@@ -76,9 +78,17 @@ public class ShellViewModel : ViewModelBase
         }
     }
 
+    public bool IsProductsMenuOpen
+    {
+        get => _isProductsMenuOpen;
+        set => SetProperty(ref _isProductsMenuOpen, value);
+    }
+
     public RelayCommand NavigateDashboardCommand { get; }
     public RelayCommand NavigatePosCommand { get; }
     public RelayCommand NavigateProductsCommand { get; }
+    public RelayCommand NavigatePromoProductsCommand { get; }
+    public RelayCommand NavigateBranchProductListingCommand { get; }
     public RelayCommand NavigatePermissionsCommand { get; }
     public RelayCommand LogoutCommand { get; }
     public RelayCommand ToggleDarkModeCommand { get; }
@@ -87,6 +97,7 @@ public class ShellViewModel : ViewModelBase
     {
         CurrentPage = page;
         CurrentView = view;
+        IsProductsMenuOpen = false;
     }
 
     private void Logout()
@@ -115,7 +126,7 @@ public class ShellViewModel : ViewModelBase
     {
         var mergedDictionaries = Application.Current.Resources.MergedDictionaries;
 
-        // 1. Find and remove the currently loaded color dictionary
+        // Only swap the color dictionary. Styles stay loaded and pick up new colors via DynamicResource.
         var currentColorDict = mergedDictionaries.FirstOrDefault(d => 
             d.Source.ToString().Contains("Colors.xaml") || 
             d.Source.ToString().Contains("Dark.xaml"));
@@ -123,14 +134,6 @@ public class ShellViewModel : ViewModelBase
         if (currentColorDict != null)
             mergedDictionaries.Remove(currentColorDict);
 
-        // 2. Find and remove the currently loaded styles dictionary
-        var currentStyleDict = mergedDictionaries.FirstOrDefault(d => 
-            d.Source.ToString().Contains("Styles.xaml"));
-
-        if (currentStyleDict != null)
-            mergedDictionaries.Remove(currentStyleDict);
-
-        // 3. Load the correct color dictionary (Colors.xaml for Light, Dark.xaml for Dark)
         string colorPath = dark 
             ? "/POSSystem.Desktop;component/Themes/Dark.xaml" 
             : "/POSSystem.Desktop;component/Themes/Colors.xaml";
@@ -138,12 +141,6 @@ public class ShellViewModel : ViewModelBase
         mergedDictionaries.Add(new ResourceDictionary 
         { 
             Source = new Uri(colorPath, UriKind.Relative) 
-        });
-
-        // 4. ALWAYS reload the Styles.xaml dictionary, or all your button/card styling will vanish!
-        mergedDictionaries.Add(new ResourceDictionary 
-        { 
-            Source = new Uri("/POSSystem.Desktop;component/Themes/Styles.xaml", UriKind.Relative) 
         });
     }
 }
